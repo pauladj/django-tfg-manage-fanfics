@@ -1,0 +1,16 @@
+{% extends 'signup.html' %}
+
+{% block body_form %}
+<article class="message is-success">
+  <div class="message-header">
+    <p>Congratulations! You are now with us</p>
+    <button class="delete" aria-label="delete"></button>
+  </div>
+  <div class="message-body">
+    <p><a href="{% url 'login' %}">Log In</a>
+    <br>
+    <br>
+    <a class="link-secundario" href="{% url 'password_reset' %}">Forgot Password?</a></p>
+  </div>
+</article>
+{% endblock %}

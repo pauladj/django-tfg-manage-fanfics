@@ -1,0 +1,102 @@
+#abc a {
+    color: #696969;
+    text-transform: uppercase;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+#abc a:hover {
+    color: #5f3aec;
+    font-weight: 700;
+}
+
+#abc {
+    text-align: center;
+    letter-spacing: 0.6rem;
+}
+
+#abc a.letter-active {
+    color: #5f3aec;
+    font-weight: 700;
+}
+
+
+#block-fandoms {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-row-gap: 30px;
+    text-align: left;
+    margin: 0 auto;
+}
+
+.single-fanfic {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.single-fanfic-left {
+    max-width: 27em;
+    min-width: 27em;
+}
+
+.single-fanfic-right {
+    width: 45%;
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+    flex-wrap: wrap;
+}
+
+.fanfic-info-block {
+    font-size: 0.80rem;
+    color: #545454;
+}
+
+.pairings-characters {
+    color: #545454;
+    font-size: 0.9em;
+}
+
+.title-right {
+    font-family: 'Segoe UI', serif;
+    color: #545454;
+    font-weight: 400;
+    font-size: 2.1rem;
+    opacity: .89;
+    line-height: 1.125;
+}
+
+.action-button > div {
+    display: flex;
+    align-items: center;
+}
+
+.form-filter {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-row-gap: 10px;
+    margin: 0 auto;
+}
+
+.form-filter option, .form-filter select {
+    text-transform: capitalize;
+}
+
+
+.left-fandoms-sidebar a {
+    color: #0a0a0a;
+}
+
+.fandom-row-selected {
+    width: 100%;
+    border-right: 2px solid #5F3AEC;
+    color: #5F3AEC;
+}
+
+.one-fandom-row div {
+    margin-top: 1em;
+}

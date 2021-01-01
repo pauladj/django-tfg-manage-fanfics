@@ -1,0 +1,22 @@
+{% load staticfiles %}
+
+<style>
+.empty-block {
+    margin-top: 1rem;
+    text-align: center;
+}
+.empty-block img {
+    width: 70%;
+    display: block;
+    margin: 0 auto;
+}
+.navbar-item .empty-block  img {
+    max-height: unset;
+}
+</style>
+
+<div class="empty-block">
+    There's nothing here
+    <br><br>
+    <img src="{% static "img/empty.svg" %}" />
+</div>

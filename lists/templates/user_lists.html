@@ -1,0 +1,83 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+
+{% block title %}My Lists{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static "css/user_lists.css" %}"
+          type="text/css">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript"
+            src="{% static "js/user_lists.js" %}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="column is-7" style="margin: 0 auto;">
+        <a href="{% url 'lists:manage_lists' %}"><H1>{% block boxtitle %}My
+            Lists{% endblock %}</H1></a>
+        <br>
+        <div class="box">
+            {% block inside_box %}
+
+                <form action="{% url 'lists:manage_lists' %}" method="post">
+                    {% csrf_token %}
+
+                    {% for l in user_lists %}
+                        <div class="checkbox one-list-manage">
+                            <input type="checkbox" name="dellist"
+                                   value="{{ l.id }}">
+                            <input name="list{{ l.id }}" class="input
+                        one-list-manage-input"
+                                   maxlength="12"
+                                   type="text"
+                                   data-listid="{{ l.id }}"
+                                   value="{{ l.name }}">
+                        </div>
+                    {% endfor %}
+
+                    <input name="fieldChange" class="input"
+                           id="changed-field-input" type="hidden" value="">
+
+                    <div id="new-lists">
+                        <input name="new" class="input"
+                               maxlength="12"
+                               type="text"
+                               placeholder="New list name...">
+                        <a id="add">Add</a>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between">
+                        <button id="button"
+                                name="_method" value="delete"
+                                class="secondary-button secondary-button-purple"
+                                onclick="return confirm('Are you sure you ' +
+                                 'want to delete these lists?');"
+                                type="submit">
+                            Delete
+                        </button>
+                        <div style="width: 100%; display: flex; justify-content: flex-end;">
+                            <button id="button" class="secondary-button grey"
+                                    onclick="return confirm('Are you sure you ' +
+                                 'want to reset the form?');"
+                                    type="reset">
+                                Discard
+                            </button>
+                            <button id="button" class="login-button"
+                                    type="submit" name="_method"
+                                    value="put">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

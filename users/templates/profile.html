@@ -1,0 +1,260 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% load main_tags %}
+{% load notifier %}
+{% load user_tags %}
+
+{% block title %}{{ user_profile.name_surname }}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/followUser.js' %}"></script>
+
+    <script>
+        var toggleFollowUser = "{% url 'toggle_follow_user' %}";
+        var profileUserId = {{user_profile.id}};
+        var csrftoken = "{{csrf_token}}";
+    </script>
+{% endblock %}
+
+
+{% block body %}
+    <div class="column is-10" style="margin: 0 auto;">
+        <div class="columns">
+            <div class="box" style="text-align:center; height: -webkit-fit-content;
+height: -moz-fit-content;
+height: fit-content;">
+                <img src="{{ user_profile.get_image }}"
+                     alt="{{ user_profile.name_surname }}" width="200px"
+                     height="200px"
+                     style="max-height: 200px; max-width: 200px; object-fit:cover;  border-radius: 100%; box-shadow: 0px 2px 2px 0px #a2a2a2;"/>
+                <h5>@{{ user_profile.username }}</h5>
+                {% if user_profile != user %}
+                    {% user_follows user user_profile as following %}
+                    {% if following is True %}
+                        <button id="follow"
+                                class="action-button action-outline-red">
+                            <div>
+                                <p>Unfollow</p>
+                                <span class="icon is-small">
+                            <i id="symbol" class="fas fa-times"></i>
+                            <i id="spinner" style="display: none"
+                               class="fas fa-spinner fa-spin"></i>
+                        </span>
+                            </div>
+                        </button>
+                    {% else %}
+                        <button id="follow"
+                                class="action-button action-outline-green">
+                            <div>
+                                <p>Follow</p>
+                                <span class="icon is-small">
+                        <i id="symbol" class="fas fa-plus"></i>
+                        <i id="spinner" style="display: none"
+                           class="fas fa-spinner fa-spin"></i>
+                        </span>
+                            </div>
+                        </button>
+                    {% endif %}
+                {% endif %}
+
+                <div style="display:flex; justify-content:space-between; text-align:center; flex-wrap: wrap; flex-flow: row wrap;   margin-top: 0.9em;">
+                    <div class="profile-sidebar">
+                        <h1>{% if user_profile.get_num_fanfics_added > 999 %}
+                            999<i style="font-size: 1rem; vertical-align: top;"
+                                  class="fas fa-plus fa-xs"></i>{% else %}
+                            {{ user_profile.get_num_fanfics_added }}{% endif %}
+                        </h1>
+                        <h3>Fanfics</h3>
+                    </div>
+                    <div class="profile-sidebar">
+                        <h1>{% if user_profile.get_num_reviews_written > 999 %}
+                            999<i style="font-size: 1rem; vertical-align: top;"
+                                  class="fas fa-plus fa-xs"></i>{% else %}
+                            {{ user_profile.get_num_reviews_written }}{% endif %}
+                        </h1>
+                        <h3>Reviews</h3>
+                    </div>
+                    <div class="profile-sidebar open-modal" style="cursor:
+                    pointer">
+                        <h1>
+                            {% if user_profile.get_num_of_follows > 999 %}999
+                                <i style="font-size: 1rem; vertical-align: top;"
+                                   class="fas fa-plus fa-xs"></i>{% else %}
+                                {{ user_profile.get_num_of_follows }}{% endif %}
+                        </h1>
+                        <h3>Follows</h3>
+                    </div>
+                    <div class="profile-sidebar open-modal-two" style="cursor:
+                    pointer">
+                        <h1>{% if user_profile.get_num_of_followers > 999 %}999
+                            <i style="font-size: 1rem; vertical-align: top;"
+                               class="fas fa-plus fa-xs"></i>{% else %}
+                            {{ user_profile.get_num_of_followers }}{% endif %}
+                        </h1>
+                        <h3>Followers</h3>
+                    </div>
+                </div>
+                {% if see is True %}
+                    <a href="{% url 'user_fanfics' user_id=user_profile.id %}"
+                       class="button login-button">See All Stories</a>
+                {% endif %}
+            </div>
+            <div class="column is-three-quarters">
+                <div class="column"
+                     style="padding-left: 3em; line-height: 1.8em;">
+                    <h2>{{ user_profile.name_surname }}</h2>
+                    {{ user_profile.get_how_old }}{% if user_profile.gender %},
+                        <span style="text-transform: capitalize;">{{ user_profile.get_gender_display }}</span>{% endif %}, {{ user_profile.country.name }}
+                    {% if user_profile.website %}
+                        <br>
+                        <a href="{{ user_profile.website }}">{{ user_profile.website }}</a>
+                    {% endif %}
+                    {% if user_profile.about_me %}
+                        <br>
+                        <br>
+                        {{ user_profile.about_me }}
+                    {% endif %}
+                    {% if user_profile.get_three_favorites_fanfics %}
+                        <div style="display:flex; justify-content: space-evenly; padding-top: 2.4em;">
+                            <div style="display:flex; align-items: baseline;">
+                                <div style="padding-right: 0.5em;">
+                                    <i class="fas fa-heart"
+                                       style="font-size: 1.4em;"></i>
+                                </div>
+                                <div>
+                                    <H1>Fandoms</H1>
+                                    {% for fandom in user_profile.get_three_favorites_fandoms %}
+                                        <a href="
+{{ fandom.get_url }}">
+                                            {{ fandom }}</a><br>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div style="display:flex; align-items: baseline;">
+                                <div style="padding-right: 0.5em;">
+                                    <i class="fas fa-heart"
+                                       style="font-size: 1.4em;"></i>
+                                </div>
+                                <div>
+                                    <H1>Fanfics</H1>
+                                    {% for fanfic in user_profile.get_three_favorites_fanfics %}
+                                        <a href="{{ fanfic.fanfic.get_url }}">
+                                            {{ fanfic.fanfic.name }}</a><br>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div style="padding-top: 2.4em"></div>
+                    <H1>Recent Activity</H1>
+                    <div style="padding-top: 1.2rem;" id="recent-activity"
+                    >{% feed_text %}</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Follows -->
+    <div class="modal" id="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Following</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+
+            <section class="modal-card-body">
+                {% with user_profile.get_follows as follows_users %}
+                    <ul>
+                        {% for fuser in follows_users %}
+                            <article class="media">
+
+                                <figure class="media-left">
+                                    <p class="image is-48x48">
+                                        <img src="{{ fuser.user_two.get_image }}"
+                                             style="width: 48px;
+        border-radius: 100%; height: 48px;
+        object-fit: cover;">
+                                    </p>
+                                </figure>
+
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <a href="{{ fuser.user_two.get_link }}">
+                                                {{ fuser.user_two.username }}</a>
+                                            <br>
+                                            <span class="notifier-when">
+                                                {{ fuser.user_two.name_surname }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                        {% endfor %}
+
+                    </ul>
+                {% endwith %}
+            </section>
+
+
+        </div>
+    </div>
+
+    <!-- Followers -->
+    <div class="modal" id="modal-two">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Followers</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+
+            <section class="modal-card-body">
+                {% with user_profile.get_followers as followers_users %}
+                    <ul>
+                        {% for fuser in followers_users %}
+                            <article class="media">
+
+                                <figure class="media-left">
+                                    <p class="image is-48x48">
+                                        <img src="
+{{ fuser.user_one.get_image }}"
+                                             style="width: 48px;
+        border-radius: 100%; height: 48px;
+        object-fit: cover;">
+                                    </p>
+                                </figure>
+
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <a href="
+{{ fuser.user_one.get_link }}">
+                                                {{ fuser.user_one.username }}</a>
+                                            <br>
+                                            <span class="notifier-when">
+                                                {{ fuser.user_one.name_surname }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                        {% endfor %}
+
+                    </ul>
+                {% endwith %}
+            </section>
+
+
+        </div>
+    </div>
+
+{% endblock %}

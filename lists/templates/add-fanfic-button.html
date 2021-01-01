@@ -1,0 +1,55 @@
+{% load list_tags %}
+{% load main_tags %}
+
+{% get_list_of_fanfic fanfic_id user.id as list %}
+{% if list %}
+    <button id="button{{ fanfic_id }}" class="action-button
+        action-outline-green add-fanfic-button-dropdown">
+        <div >
+            <p>{{ list }}</p>
+            <span class="icon is-small">
+            <i class="fas fa-chevron-down"></i>
+        </span>
+        </div>
+    </button>
+{% else %}
+    <button id="button{{ fanfic_id }}"
+            class="action-button
+        action-colored-inverse-gray add-fanfic-button-dropdown">
+        <div>
+            <p>Add it</p>
+            <span class="icon is-small">
+            <i class="fas fa-chevron-down"></i>
+        </span>
+        </div>
+    </button>
+{% endif %}
+
+
+<div class="libraries-container-dropdown" style="display: none">
+    <div class="libraries-search-container-dropdown">
+        <div class="field">
+            <div class="control">
+                <label>
+                    <input class="input is-small libraries-search" type="text"
+                           placeholder="List name...">
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="control libraries-list-checkbox">
+        {% for list_elem in user_lists %}
+            {% compare_if_equal list_elem.id list.id as is_equal %}
+            <div class="one-list-row">
+                <label class="radio">
+                    <input class="list-fanfic-checkbox" data-listid=
+                            "{{ list_elem.id }}"
+                           data-fanficid="{{ fanfic_id }}" type="radio"
+                           name="list{{ fanfic_id }}"
+                           {% if is_equal %}checked{% endif %}>
+                    {{ list_elem.name }}
+                </label>
+            </div>
+        {% endfor %}
+    </div>
+</div>

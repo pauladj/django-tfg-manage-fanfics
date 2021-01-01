@@ -1,0 +1,213 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fickeeper</title>
+
+    <link rel="stylesheet" href="{% static "css/external/bulma.css" %}">
+
+    <link rel="stylesheet" href="{% static "css/general.css" %}">
+    <link rel="stylesheet" href="{% static "css/pagesBase.css" %}">
+
+    <link href="https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800" rel="stylesheet">
+
+    <script type="text/javascript" src="{% static "js/external/fontawesome.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/general.js" %}"></script>
+</head>
+<body>
+
+<header>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="container is-widescreen">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'pages:home' %}">
+          <img src="{% static "img/logo.svg" %}" alt="Fickeeper: you fanfic organizer" >
+        </a>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a href="#features" class="navbar-item">
+                    Features
+                </a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="navbar-item loginbtn" href="{% url 'login' %}" style="border:none">
+                            Log in
+                        </a>
+                        <a class="button-different button-purple" href="{% url 'signup' %}">
+                            <strong>Sign up</strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+</header>
+
+<section class="hero svgblock">
+  <div class="hero-body is-desktop">
+    <div class="container">
+        <div class="level">
+            <section class="text">
+                <h1 class="title">
+                    Track and follow your favorite fanfic stories.
+                </h1>
+                <h2 class="des">
+                    Stop worrying about what you have available to
+                    read and just read.                    
+                </h2>
+                <a class="button-different button-green" href="{% url 'signup' %}">Get Started Free</a>
+            </section>
+            <section class="girl">
+                <img src="{% static "img/working_late.svg" %}" />
+            </section>
+        </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero">
+  <div class="hero-body is-desktop">
+     <div class="container">
+         <div class="column is-9 has-text-centered" style="margin: 0 auto;">
+            <span class="subtitle features-title" id="features">Features</span>
+
+            <div class="level features-level" style="margin-top:3rem">
+                <section class="features-left features-img">
+                    <img src="{% static "img/filing_system.svg" %}" />
+                </section>
+                <section class="features-right">
+                    <h1 class="title">
+                        Organize your fanfics
+                    </h1>
+                    <h2 class="des">
+                        Keep all your favorites stories in one place 
+                        and use lists to organize them. You will know 
+                        what fics are on your to-read list right away.
+
+                    </h2>
+                </section>
+            </div>
+
+            <div class="level features-level" style="margin-top:6rem">
+                <section class="features-left">
+                    <h1 class="title">
+                        Track what you read
+                    </h1>
+                    <h2 class="des">
+                        Know what chapters you have read and have left. 
+                        You don't have to write it down anymore.              
+                    </h2>
+                </section>
+                <section class="features-right features-img">
+                    <img src="{% static "img/to_do_mark.svg" %}" />
+                </section>
+            </div>
+
+            <div class="level features-level" style="margin-top:6rem">
+                <section class="features-left features-img">
+                    <img src="{% static "img/texting.svg" %}" />
+                </section>
+                <section class="features-right ">
+                    <h1 class="title">
+                        See new chapter
+                    </h1>
+                    <h2 class="des">
+                        If one of your added fanfics has a new chapter read it
+                        right away. Stop wasting time checking all of them.
+                    </h2>
+                </section>
+            </div>
+
+            <div class="level features-level" style="margin-top:6rem">
+                <section class="features-left">
+                    <h1 class="title">
+                        Socialize with friends
+                    </h1>
+                    <h2 class="des">
+                        Follow the people you want and see their favorite fandoms 
+                        and fanfics. You can also see their public lists.
+                    </h2>
+                </section>
+                <section class="features-right features-img">
+                    <img src="{% static "img/community.svg" %}" />
+                </section>
+            </div>
+        </div>
+     </div>
+  </div>
+</section>
+
+<section class="hero svgblock-bottom">
+  <div class="hero-body is-desktop bottom-container">
+    <div class="container has-text-centered">
+        <section class="text">
+            <h1 class="title">
+                Start tracking the fanfics you read
+            </h1>
+            <h2 class="des bottom-des">
+                Stop using notebooks and bookmarks and start 
+                doing it automatically.                    
+            </h2>
+            <a class="button-different button-green" href="{% url 'signup' %}">Get Started Free</a>
+
+            <div class="separator"></div>
+
+            <div class="container">
+            <div class="level bottom-links">
+            <p class="level-item has-text-centered">
+                <a href="#features" class="navbar-item">Features</a>
+            </p>
+            <p class="level-item has-text-centered">
+                <a class="navbar-item">Contact Us</a>
+            </p>
+            <p class="level-item has-text-centered">
+                <a class="navbar-item">Terms of Service</a>
+            </p>
+            <p class="level-item has-text-centered">
+                <a class="navbar-item">Privacy Policy</a>
+            </p>
+            </div>
+
+            <div class="container">
+            <div class="column is-4 has-text-centered" style="margin: 0 auto;">
+            <span class="subtitle features-title">Join Us On</span>
+            <p class="level" style="justify-content: space-evenly; margin-top: 1.2rem">
+                <img class="social-links" src="{% static "img/twitter.svg" %}" />
+                <img class="social-links" src="{% static "img/facebook.svg" %}" />
+                <img class="social-links" src="{% static "img/instagram.svg" %}" />
+                <img class="social-links" src="{% static "img/google+.svg" %}" />
+            </p>
+            </div>
+            </div>
+
+            </div>
+        </section>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+ <div class="content has-text-centered">
+   <p>
+     <strong>Fickeeper</strong> by <a>Paula de Jaime</a>.
+   </p>
+ </div>
+</footer>
+<footer></footer>
+</body>
+</html>

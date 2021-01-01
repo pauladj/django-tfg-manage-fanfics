@@ -1,0 +1,124 @@
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static "css/external/bulma.css" %}">
+
+    <link rel="stylesheet" href="{% static "css/general.css" %}">
+    <link rel="stylesheet" href="{% static "css/usersBase.css" %}">
+
+    <link href="https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800" rel="stylesheet">
+
+    <script type="text/javascript" src="{% static "js/external/fontawesome.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/general.js" %}"></script>
+
+    {% block js %}
+    {% endblock %}
+</head>
+<body>
+
+<header>
+  <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="container is-widescreen">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'pages:home' %}">
+          <img src="{% static "img/logo.svg" %}" alt="Fickeeper: you fanfic organizer" >
+        </a>
+      </div>
+    </div>
+</nav>
+</header>
+
+<svg viewBox="0 0 300.675 559.607" class="figure-left">
+		<path d="M 46.13699340820313 0 C 105.4559631347656 58.69140625 237.2759399414063 74.0703125 294.39794921875 249.830322265625 C 351.5199279785156 425.59033203125 0 559.607421875 0 559.607421875 L 46.13699340820313 0 Z">
+		</path>
+</svg>
+
+<svg viewBox="113.99 242.847 211.854 183.471" class="figure-right">
+	<path d="M 272.8800964355469 242.8467102050781 L 166.9532470703125 242.8467102050781 L 113.9898223876953 334.5820617675781 L 166.9532470703125 426.3173828125 L 272.8800964355469 426.3173828125 L 325.843505859375 334.5820617675781 L 272.8800964355469 242.8467102050781 Z">
+	</path>
+</svg>
+
+
+<section class="hero is-fullheight">
+  <div class="hero-body is-desktop" style="margin-top: 3rem">
+     <div class="container has-text-centered">
+         <div class="column is-5" style="margin: 0 auto;">
+           <h3 class="title">
+               {% block body_title %}
+               {% endblock %}
+           </h3>
+           <p class="subtitle login-subtitle">
+             {% block body_subtitle %}
+             {% endblock %}
+           </p>
+           <div class="box">
+             {% for error in form.non_field_errors %}
+             <div class="notification is-danger">
+               <button class="delete"></button>
+               {{ error }}
+             </div>
+             {%endfor%}
+
+             {% block body_form %}
+             <form method="post">
+               {% csrf_token %}
+               {% for field in form %}
+                   <div class="login-field">
+                       {{ field.label_tag }}
+                       {% block required_asterisck %}
+                       {% if field.field.required %}
+                       <i style="font-size:0.5rem; color: #CF3737;" class="fas fa-xs fa-asterisk"></i>
+                       {% endif %}
+                       {% endblock %}
+                       <br>
+                       {% if field.errors %}
+                       <div class="control has-icons-right">
+                         {{ field|add_class:"input is-danger" }}
+                         <span class="icon is-small is-right">
+                           <i class="fas fa-exclamation-triangle"></i>
+                         </span>
+                       </div>
+                       <p class="help is-danger">
+                         {% for error in field.errors %}
+                           {{ error }}
+                         {% endfor %}</p>
+                      {% elif field.name == "username" %}
+                      {% block checkusername %}
+                      {{ field|add_class:"input" }}
+                      {% endblock %}
+                      {% else %}
+                      {{ field|add_class:"input" }}
+                      {% endif %}
+                      {% if field.help_text %}
+                        <span class="help">{% autoescape off %}{{ field.help_text }}{% endautoescape %}</span>
+                      {% endif %}
+                   </div>
+               {% endfor %}
+               <button type="submit" class="button login-button">{% block body_btn %}Log In{% endblock %}</button>
+             </form>
+             {% endblock %}
+            </div>
+            {% block links %}
+            {% endblock %}
+         </div>
+     </div>
+  </div>
+</section>
+
+<footer class="footer">
+ <div class="content has-text-centered">
+   <p>
+     <strong>Fickeeper</strong> by <a>Paula de Jaime</a>.
+   </p>
+ </div>
+</footer>
+<footer></footer>
+</body>
+</html>

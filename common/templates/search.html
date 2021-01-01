@@ -1,0 +1,103 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% load main_tags %}
+{% load notifier %}
+{% load user_tags %}
+{% load fandoms_tags %}
+{% load list_tags %}
+
+{% block title %}Search{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/fanfic-page.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fandoms.css' %}">
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+
+{% block body %}
+
+    {% initialize_list_dropdown user.id as user_lists %}
+
+    <div class="column is-14"
+         style="margin: 0 auto; padding: 1.0rem 0 1.4rem 0;">
+        <h1>
+            <a href="{% url 'common:search' %}"><span
+                    style="color: #3B3B3B">
+                Search</span></a></span>
+        </h1>
+    </div>
+
+    <div class="column is-14" style="margin: 0 auto;">
+
+        <div class="columns">
+            <div class="box column">
+                <div class="no-selectable">
+                    <form method="get" action="{% url 'common:search' %}">
+                        <div style="text-align: center;">
+                            <p class="control has-icons-right">
+                                <input class="input" name="text"
+                                       type="text"
+                                       {% if search_text %}value="{{ search_text }}"{% endif %}
+                                       placeholder="Search fanfics...">
+                            </p>
+                            <div class="control" style="text-align: center;
+                            margin-top: 0.6em;">
+                                <label class="radio">
+                                    <input name="where" value="user"
+                                           type="radio"
+                                           {% if where and where == "user" %}checked{% endif %}>
+                                    Users
+                                </label>
+                                <label class="radio">
+                                    <input name="where" value="fanfic"
+                                           type="radio"
+                                           {% if where is None or where == "fanfic" %}checked{% endif %}>
+                                    Fanfics
+                                </label>
+                            </div>
+                            <button class="action-button action-colored"
+                                    style="margin-top: 0.6em;"
+                                    type="submit">Search
+                            </button>
+                        </div>
+                    </form>
+                    <div id="block-fanfics">
+                        {% for search_obj in search_list %}
+                            {% if where == "user" %}
+                                <a href="{{ search_obj.get_link }}">
+                                    {{ search_obj.name_surname }}
+                                    ({{ search_obj }})</a>
+                            {% else %}
+                                <a href="{{ search_obj.get_url }}">
+                                    {{ search_obj }} by
+                                {{ search_obj.author }}</a>
+                            {% endif %}
+                            {% if forloop.last is False %}
+                                <div class="is-divider-strong"
+                                     style="margin-top: 0.7rem;
+        margin-bottom:2rem"></div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    {% if search_list|length == 0 %}
+                        {% include "empty_space.html" %}
+                        <style>
+                            .empty-block {
+                                text-align: center;
+                                width: 50%;
+                                margin: 0 auto;
+                                margin-top: 2rem;
+                            }
+                        </style>
+                    {% endif %}
+                    {% paginate pagination_append %}
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

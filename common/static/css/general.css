@@ -1,0 +1,338 @@
+body {
+    font-size: 0.95rem;
+    font-family: "Segoe UI", serif;
+}
+
+.menu-selected-option {
+    background-color: #fafafa;
+    color: #5f3aec;
+}
+
+.login-field {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.login-field input, .login-field .icon, .login-field textarea, .login-field .select {
+    margin-top: 0.4rem;
+}
+
+.login-button {
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 0.07rem;
+    text-transform: uppercase;
+    background: #5F3AEC;
+    color: white;
+    padding: 0.6rem 2.3rem;
+    height: auto;
+    border-radius: 0.4rem;
+    box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.1);
+    border: none;
+    margin-top: 1rem;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    color: white;
+    background: #482CB3;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.16);
+}
+
+.login-button:focus {
+    color: white;
+}
+
+
+.secondary-button {
+    color: #969696ba;
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 0.07rem;
+    text-transform: uppercase;
+    background: white;
+    text-transform: uppercase;
+    padding: 0.6rem 2.3rem;
+    height: auto;
+    border-radius: 0.4rem;
+    border: none;
+    margin-top: 1rem;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.secondary-button:hover {
+    color: #482CB3;
+}
+
+.secondary-button-purple {
+    color: #482CB3;
+    padding: 0;
+}
+
+/** Action buttons */
+.action-button {
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 0.07rem;
+    text-transform: uppercase;
+    background: #5F3AEC;
+    color: white;
+    padding: 0.5rem 1.0rem;
+    height: auto;
+    border-radius: 0.4rem;
+    box-shadow: 2px 3px 6px 1px rgba(0, 0, 0, 0.12);
+    border: none;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.action-button > div {
+    display: flex;
+}
+
+.action-button > div > span {
+    font-size: 0.75rem;
+}
+
+.action-button > div > p {
+    margin-right: 1em;
+}
+
+.action-button:hover {
+    color: white;
+    background: #482CB3;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.13);
+}
+
+/** Green outline */
+.action-outline-green {
+    background: white;
+    color: #565656;
+    border: 2px solid #37cfb1;
+}
+
+.action-outline-green > div > span {
+    color: #37cfb1;
+}
+
+.action-outline-green:hover {
+    color: white;
+    background: #2aa68e;
+    border: 2px solid #2aa68e;
+}
+
+.action-outline-green:hover > div > span {
+    color: white;
+}
+
+/** Red outline **/
+.action-outline-red {
+    background: white;
+    color: #565656;
+    border: 2px solid #CF3737;
+}
+
+.action-outline-red > div > span {
+    color: #CF3737;
+}
+
+.action-outline-red:hover {
+    color: white;
+    background: #CF3737;
+    border: 2px solid #CF3737;
+}
+
+.action-outline-red:hover > div > span {
+    color: white;
+}
+
+/* Colored */
+.action-colored {
+    background: #5F3AEC;
+    color: white;
+    border: 2px solid #5F3AEC;
+}
+
+.action-colored > div > span {
+    color: white;
+}
+
+.action-colored:hover {
+    color: black;
+    background: white;
+    border: 2px solid #5F3AEC;
+}
+
+.action-colored:hover > div > span {
+    color: #5F3AEC;
+}
+
+.action-colored > div > p {
+    margin-right: 1.3em;
+    font-size: 0.8rem;
+}
+
+/*Colored white*/
+.action-colored-white {
+    background: white;
+    color: #545454;
+    border: 2px solid white;
+}
+
+.action-colored-white > div > span {
+    color: #545454;
+}
+
+.action-colored-white:hover {
+    color: #545454;
+    background: white;
+    border: 2px solid #545454;
+}
+
+.action-colored-white:hover > div > span {
+    color: #545454;
+}
+
+.action-colored-white > div > p {
+    margin-right: 1.3em;
+    font-size: 0.8rem;
+}
+
+/* Colored inverse grey */
+.action-colored-inverse-gray:hover {
+    background: #5c5c5c;
+    color: white;
+    border: 2px solid #5c5c5c;
+}
+
+.action-colored-inverse-gray > div > span {
+    color: #5c5c5c;
+}
+
+.action-colored-inverse-gray {
+    color: #5c5c5c;
+    background: white;
+    border: 2px solid #727272;
+}
+
+.action-colored-inverse-gray:hover > div > span {
+    color: white;
+}
+
+.action-colored-inverse-gray > div > p {
+    margin-right: 1.3em;
+    font-size: 0.8rem;
+}
+
+/** End **/
+
+.grey {
+    color: #969696;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+/* profile tabs */
+
+.sidebar-tab {
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+    padding-left: 1.2em;
+    padding-right: 1.2em;
+    border-radius: 0.4rem;
+    color: #969696;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.03rem;
+    text-transform: uppercase;
+    margin-bottom: .6rem;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.sidebar-tab-active {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    color: #222;
+    border-radius: 0.4rem;
+    box-shadow: 1px 1px 2px rgba(95, 95, 95, 0.15);
+}
+
+.sidebar-tab svg {
+    margin-right: 0.3rem;
+    height: 10px;
+    width: 10px;
+    vertical-align: baseline;
+}
+
+.sidebar-tab:hover {
+    display: flex;
+    justify-content: space-between;
+    color: #808080;
+}
+
+.sidebar-tab-active:after {
+    content: "";
+    border-right: 2px solid #5F3AEC;
+}
+
+.sidebar-tab:hover:after {
+    content: "";
+    border-right: 2px solid #cfc3ff;
+}
+
+h4 {
+    padding-bottom: 0.6em;
+    color: #969696ba;
+    font-weight: 500;
+    font-size: 0.8rem;
+    letter-spacing: 0.06rem;
+    text-transform: uppercase;
+    margin-bottom: .6rem;
+}
+
+#pagination {
+    margin-top: 1.6em;
+}
+
+/* overwrite Bulma */
+
+a {
+    color: #5F3AEC;
+}
+
+.link-secundario {
+    color: #949494;
+}
+
+.message {
+    font-size: 0.95rem;
+}
+
+.navbar-item img {
+    max-height: 2.5rem;
+}
+
+.button:focus {
+    color: white;
+}
+
+
+.modal-background {
+    background: rgba(10, 10, 10, 0.38);
+}

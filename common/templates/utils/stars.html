@@ -1,0 +1,12 @@
+{% load staticfiles %}
+{% with ''|center:5 as range %}
+    {% for number in range %}
+        {% if score is not None and score >= forloop.counter %}
+            <img {% if size == "small" %}style="width:1.1em"{% endif %} src=
+                    "{% static '/img/star.svg' %}">
+        {% else %}
+            <img {% if size == "small" %}style="width:1.1em"{% endif %}
+                 src="{% static '/img/star-light.svg' %}">
+        {% endif %}
+    {% endfor %}
+{% endwith %}

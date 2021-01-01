@@ -1,0 +1,165 @@
+.fanfic-title {
+    line-height: 1.125;
+    font-family: 'Dosis', sans-serif;
+    font-weight: 900;
+    color: #3B3B3B;
+    font-size: 2.5rem;
+    opacity: .89;
+}
+
+.fanfic-author {
+    padding-top: 0.5rem;
+}
+
+.fanfic-average-score {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+
+.fanfic-info-block {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 1.4rem;
+}
+
+.pairings-characters {
+    font-weight: 700;
+    margin-bottom: 1.4rem;
+}
+
+#new-review {
+    box-shadow: 1px 1px 15px #00000029;
+    -moz-box-shadow: 1px 1px 15px #00000029;
+    -webkit-box-shadow: 1px 1px 15px #00000029;
+    padding-bottom: 1.5rem;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    border-radius: 0.4rem;
+    background: white;
+}
+
+
+#post-button {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
+
+#block-reviews {
+    margin-top: 3rem;
+    width: 100%;
+}
+
+#block-reviews figure img {
+    width: 64px;
+    border-radius: 100%;
+    height: 64px;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+#stars-new-review {
+    margin-right: 2rem;
+}
+
+.review-footer-icon {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.readings {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 8fr 1fr;
+    grid-template-columns: 1fr 8fr 1fr;
+    grid-row-gap: 10px;
+    width: 70%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.reading-header {
+    border-bottom: .1rem solid #f3f3f3;
+    border-top: .1rem solid #f3f3f3;
+    padding-top: 0.9rem;
+}
+
+.reading-header > h3 {
+    color: #5a5a5aeb;
+    font-weight: 600;
+}
+
+.reading-center {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.reading-body.reading-center {
+    padding-bottom: 1.8rem;
+    text-align: left;
+}
+
+.readings-menu {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    width: 70%;
+    margin: 0 auto;
+    padding-bottom: 0.4rem;
+
+    padding-top: 0.6em;
+
+}
+
+.readings-menu button, button.edit-button, button.save-button, button.cancel-button {
+    color: #5f3aec;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.03rem;
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+button.edit-button, button.cancel-button, button.save-button {
+    padding: 0
+}
+
+button.save-button {
+    padding-right: 1em;
+}
+
+button.cancel-button {
+    color: dimgrey;
+}
+
+.reading.reading-body > a {
+    font-weight: 600;
+}
+
+
+.unchecked-reading {
+    color: #d8d8d8;
+    cursor: pointer;
+}
+
+.checked-reading {
+    color: #5F3AEC;
+    cursor: pointer;
+}
+

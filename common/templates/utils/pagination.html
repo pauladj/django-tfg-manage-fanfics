@@ -1,0 +1,38 @@
+{% if is_paginated %}
+<div id="pagination">
+    {% if pagination_obj.has_other_pages and pagination_obj.num_pages != 1 %}
+        {% if pagination_obj.has_previous %}
+            <a class="pagination-previous" href="?page=
+{{ pagination_obj.previous_page_number }}{{ position }}">Previous</a>
+            {% if pagination_obj.number|add:'-4' > 1 %}
+                <a class="pagination-link" href="?page={{ pagination_obj.number|add:'-5' }}{{ position }}">&hellip;</a>
+            {% endif %}
+            <a class="pagination-link"
+                   href="?page={{ pagination_obj.previous_page_number }}{{ position }}">{{ pagination_obj.previous_page_number }}</a>
+        {% else %}
+            <a class="pagination-previous" disabled>Previous</a>
+        {% endif %}
+
+        {% for i in pagination_obj.paginator.page_range %}
+            {% if pagination_obj.number == i %}
+                <a class="pagination-link is-current">{{ i }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if pagination_obj.has_next and  pagination_obj.next_page_number %}
+            <a class="pagination-link"
+                                     href="?page={{ pagination_obj.next_page_number }}{{ position }}">{{ pagination_obj.next_page_number }}</a>
+            
+
+            {% if pagination_obj.paginator.num_pages > pagination_obj.number|add:'4' %}
+                <a class="pagination-link"
+                                         href="?page={{ pagination_obj.number|add:'5' }}{{ position }}">&hellip;</a>
+            {% endif %}
+            <a href="?page={{ pagination_obj.next_page_number }}{{ position }}" class="pagination-next">Next page</a>
+        {% else %}
+            <a  class="pagination-next" disabled>Next page</a>
+        {% endif %}
+
+    {% endif %}
+</div>
+{% endif %}

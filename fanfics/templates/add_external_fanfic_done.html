@@ -1,0 +1,32 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+
+{% block title %}Add External Fanfic{% endblock %}
+
+{% block body %}
+<div class="column is-4" style="margin: 0 auto;">
+    <div class="box has-text-centered">
+    {% block inside_box %}
+    
+    <img src="{% static 'img/ok.svg' %}" style="width: 11rem"/>
+    <br>
+    <br>
+    <h1>You did it!</h1>
+    <br>
+    We'll send you a notification as soon as we add it to the system.
+    <br>
+    <div style="margin-top: 2rem">
+    <a class="login-button" href="{% url 'fanfics:external_add' %}">Add
+        more</a>
+    </div>
+    <br>
+    <a href="{% url 'common:dashboard' %}">Go Home</a>
+    {% endblock %}
+</div>
+</div>
+{% endblock %}
+
+
+
+
+    

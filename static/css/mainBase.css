@@ -1,0 +1,211 @@
+body {
+    border-top: 3px solid #5f3aec;
+    background-color: #F7F7F7;
+    font-family: "Segoe UI", serif;
+}
+
+h1 {
+    line-height: 1.125;
+    font-family: 'Dosis', sans-serif;
+    font-weight: bold;
+    color: #3B3B3B;
+    font-size: 2.1rem;
+    opacity: .89;
+}
+
+h3 {
+    padding-bottom: 0.6em;
+    color: #969696ba;
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 0.06rem;
+    text-transform: uppercase;
+    margin-bottom: .6rem;
+}
+
+
+h5 {
+    padding-bottom: 0.6em;
+    color: #797979;
+    padding-top: 0.3em;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.02rem;
+    margin-bottom: .6rem;
+    text-align: center;
+}
+
+.dashboard-title {
+    color: #717171de;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.06rem;
+    text-transform: capitalize;
+    display: block;
+}
+
+.date-dashboard {
+    text-transform: uppercase;
+    font-size: 0.86em;
+    font-weight: 600;
+}
+
+.pairings-dashboard {
+    font-size: 0.86em;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: black;
+}
+
+.chapters-dashboard {
+    text-transform: uppercase;
+    font-size: 0.84em;
+    font-weight: 600;
+    color: #5c5c5c;
+    padding-bottom: 0.3em;
+}
+
+.is-divider-light, .is-divider-compressed {
+    display: block;
+    position: relative;
+    border-top: .05rem solid #f3f3f3;
+    height: .1rem;
+    margin: 1.4em 0 1.4em 0;
+    text-align: center;
+}
+
+.is-divider-compressed {
+    margin: 0.8em 0 0.8em 0;
+}
+
+.box {
+    padding: 1.7rem 2.3rem;
+    background-color: white;
+    border: none;
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+}
+
+.grey-background {
+    background-color: #f7f7f7;
+}
+
+.navbar-center {
+    display: flex;
+    align-items: stretch;
+}
+
+.profile-picture-nav {
+    width: 2.3rem;
+    height: 2.3rem;
+    background: #0003;
+    border-radius: 100%;
+}
+
+.notification-bell-nav:after {
+    content: '';
+    height: 42%;
+    width: 1px;
+    position: absolute;
+    right: 0;
+    top: 29%;
+    background-color: #D1D1D1;
+}
+
+.all-as-read {
+    text-align: center;
+    border-bottom: 2px solid whitesmoke;
+    padding-bottom: 0.6em;
+}
+
+#all-notifications-button {
+    text-align: center;
+    border-top: 2px solid whitesmoke;
+    padding-top: 0.4em;
+    padding-bottom: 0.15em;
+}
+
+#notification-bubble.bubble {
+    position: relative;
+}
+
+#notification-bubble.bubble[data-badge]:after {
+    content: attr(data-badge);
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    font-size: .7em;
+    background: #5f3aec;
+    color: white;
+    width: 17px;
+    height: 18px;
+    text-align: center;
+    line-height: 15px;
+    border-radius: 50%;
+    border: 1.3px solid white;
+}
+
+/* bulma overwrite */
+
+.navbar-link:not(.is-arrowless)::after {
+    border-color: #5f3aec;
+    margin-top: -0.375em;
+    right: 1.125em;
+}
+
+@media screen and (min-width: 1088px) {
+    .navbar-dropdown a.navbar-item.notification-item {
+        padding-right: 1.5rem;
+        padding-left: 0.8rem;
+    }
+}
+
+a.navbar-item:hover, a.navbar-item.is-active, .navbar-link:hover, .navbar-link.is-active {
+    color: #5F3AEC;
+}
+
+a.pagination-link.is-current {
+    background: #515151;
+    border: #222222;
+}
+
+.pagination-previous:focus, .pagination-next:focus, .pagination-link:focus {
+    border-color: #515151;
+}
+
+.green-label {
+    text-transform: uppercase;
+    color: #37CFB1;
+    border: 1px solid rgba(26, 228, 176, 0.32);
+    border-radius: 10px;
+    display: inline;
+    background: rgba(26, 228, 176, 0.09);
+    padding: 0.1rem 1.3rem 0.1rem 1.3rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+    margin-left: 1rem;
+}
+
+.no-selectable {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.is-divider, .is-divider-strong {
+    display: block;
+    position: relative;
+    border-top: .1rem solid #f3f3f3;
+    height: .1rem;
+    margin: 0 0 2rem 0;
+    text-align: center;
+}
+
+.is-divider-strong {
+    border-top: .1rem solid #efefef;
+    margin-bottom: 0.5rem;
+}

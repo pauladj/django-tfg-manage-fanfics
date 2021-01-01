@@ -1,0 +1,89 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+{% load notifier %}
+{% load main_tags %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block body %}
+    <div class="column is-7" style="margin: 0 auto;">
+    <a href="{% url 'notifier:notifications' %}"><H1>{% block boxtitle %}All my
+        notifications{% endblock %}</H1></a>
+    <br>
+    <div class="box">
+    {% block inside_box %}
+
+
+        {% if user_notifications.count > 0 %}
+            <a>
+                <div class="all-as-read">
+                    Mark all as read
+                </div>
+            </a>
+        {% endif %}
+
+
+
+        {% for notification in user_notifications %}
+            <a
+                    {% if notification.link is not None %}href='{{ notification.link }}'{% endif %}>
+                <article
+                        class="media {% if notification.read is False %}unread{% endif %} notification"
+                        style="align-items: center;">
+                    {% if notification.get_representative_image %}
+                        <figure class="media-left">
+                            <p class="image is-48x48">
+                                <img src="{{ notification.get_representative_image }}"
+                                     style="width: 48px; border-radius: 100%; height: 48px; object-fit: cover;">
+                            </p>
+                        </figure>
+                    {% endif %}
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                {% if notification.reverse is True %}
+                                     <strong>{% if user == notification.target %}
+                                    you{% else %}
+                                    {{ notification.target }}{% endif %}</strong> {{ notification.verb }}
+                                    {{ notification.subject }}
+                                {% else %}
+                                    <strong>{{ notification.subject }}</strong> {{ notification.verb }}
+                                    {% if user == notification.target %}
+                                    you{% else %}
+                                    {{ notification.target }}{% endif %}
+                                {% endif %}
+
+                                <br>
+                                <span class="notifier-when">{{ notification.get_date }}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="media-right">
+                <span
+                        data-notificationid={{ notification.id }}
+                                data-tippy-content='Mark as read'
+                        data-tippy-arrow="true"
+                        data-tippy-animation="fade"
+                        style="font-size: 0.6rem; color: #0003" class="tippy
+                        hidden circle"><i
+                            class="fas fa-circle fa-xs"></i></span>
+                    </div>
+                </article>
+            </a>
+        {% empty %}
+            {% include "empty_space.html" %}
+        {% endfor %}
+
+        {% paginate %}
+
+    {% endblock %}
+
+
+{% endblock %}
+</div>
+</div>
+
+

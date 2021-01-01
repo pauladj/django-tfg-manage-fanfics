@@ -1,0 +1,51 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" href="{% static 'css/external/pell.min.css' %}">
+
+<script src="{% static 'js/external/pell.min.js' %}"></script>
+<script>
+    var urlStar = "{% static '/img/star.svg' %}";
+    var urlStarLight = "{% static '/img/star-light.svg' %}";
+    var text = `{{ text|safe }}`;
+    var stars = "{{ stars}}";
+</script>
+<script src="{% static 'js/stars-review.js' %}"></script>
+<script src="{% static 'js/pell.js' %}"></script>
+
+<div id="new-review">
+    <form method="post" {% if not edit %}action="
+{% url 'reviews:reviews' %}"{% endif %}>
+        {% csrf_token %}
+        {% if edit %}
+            <input type="hidden" name="_method" value="put"/>
+        {% else %}
+            <input type="hidden" name="fanfic_id" value="{{ fanfic.id }}"/>
+        {% endif %}
+        <div id="editor"></div>
+        <input name="text" type="hidden" id="markup"
+               {% if text is not None %}value="{{ text }}"{% endif %}/>
+        <div id="post-button">
+            <div id="characteres">7000</div>
+            <div style="display:flex; justify-content: flex-end; align-items: flex-end;">
+                <div id="stars-new-review">
+                    <input name="stars" id="stars-value" type="hidden"
+                           value="0">
+                    <img class="star-new" data-star="1" src=
+                            "{% static '/img/star-light.svg' %}">
+                    <img class="star-new" data-star="2" src=
+                            "{% static '/img/star-light.svg' %}">
+                    <img class="star-new" data-star="3" src=
+                            "{% static '/img/star-light.svg' %}">
+                    <img class="star-new" data-star="4" src=
+                            "{% static '/img/star-light.svg' %}">
+                    <img class="star-new" data-star="5" src=
+                            "{% static '/img/star-light.svg' %}">
+                </div>
+                <button type="submit"
+                        class="button
+                    login-button">Post review
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

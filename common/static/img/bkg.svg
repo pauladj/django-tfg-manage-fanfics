@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2467.97" height="1728.436" viewBox="0 0 2467.97 1728.436">
+  <g id="Group_167" data-name="Group 167" transform="translate(439.604 -1454)">
+    <g id="Group_54" data-name="Group 54" transform="translate(-181 -80)">
+      <circle id="Ellipse_89" data-name="Ellipse 89" cx="141.5" cy="141.5" r="141.5" transform="translate(1779 1534)" fill="#f5f5ff"/>
+      <circle id="Ellipse_90" data-name="Ellipse 90" cx="73" cy="73" r="73" transform="translate(1848 1603)" fill="#fff"/>
+    </g>
+    <path id="Path_699" data-name="Path 699" d="M264.756,4096.844s36.1,94.556,130.659,99.713,153.4,137.137,154.727,176.811-70.09,100.507,11.9,296.23,609.653,62.155,663.874,31.739,271.735,14.416,271.735,14.416,3.659,5.147,49.11,7.632,57.879-20.24,58.589-49.357-27.342-43.321-56.8-44.235-54.574,0-54.574,0-216.619,24.069-278.51-153.008S893.982,4280.8,893.982,4280.8s-166.762-27.507-247.564,20.63-130.659-104.87-130.659-104.87-10.315-32.666-49.857-37.824-99.713,51.576-182.235-84.24c-15.1-24.857-21.606-36.84-26.071-36.662-2.574.088-5.764,4.237-10.3,8.825-2.17,2.2-3.857,5.507-8.4,6.3C237.157,4065.448,264.756,4096.844,264.756,4096.844Z" transform="translate(423 -2015)" fill="rgba(220,216,232,0.93)" opacity="0.11"/>
+    <path id="Path_698" data-name="Path 698" d="M556.634,3539.519s368.1-321.053,630.257-341.609,311.366,114.117,324.775,162.918-7.351,145.866-112.455,239.2S974.57,3900.648,777.894,3900.648s-212.321-349.417-212.321-349.417Z" transform="translate(-729 -1568)" fill="rgba(34,50,66,0.74)" opacity="0.01"/>
+    <g id="Group_68" data-name="Group 68">
+      <g id="Group_51" data-name="Group 51" transform="translate(-421.109 2585.698)">
+        <g id="Ellipse_89-2" data-name="Ellipse 89" fill="#f5f5ff" stroke="rgba(236,235,252,0.34)" stroke-width="14">
+          <circle cx="289.121" cy="289.121" r="289.121" stroke="none"/>
+          <circle cx="289.121" cy="289.121" r="282.121" fill="none"/>
+        </g>
+      </g>
+      <g id="Group_52" data-name="Group 52" transform="translate(-439.604 2563)" opacity="0.26">
+        <g id="Ellipse_89-3" data-name="Ellipse 89" fill="none" stroke="#ecebfc" stroke-width="16">
+          <circle cx="309.718" cy="309.718" r="309.718" stroke="none"/>
+          <circle cx="309.718" cy="309.718" r="301.718" fill="none"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

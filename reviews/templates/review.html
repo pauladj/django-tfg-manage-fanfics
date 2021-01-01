@@ -1,0 +1,118 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% load main_tags %}
+{% load notifier %}
+{% load user_tags %}
+
+{% block title %}Review{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fanfic-page.css' %}">
+{% endblock %}
+
+{% block js %}
+
+    <script src="{% static 'js/external/readMoreJS.min.js' %}"></script>
+    <script src="{% static 'js/readmore.js' %}"></script>
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="column is-10"
+         style="margin: 0 auto; padding: 1.0rem 0 1.4rem 0">
+        <h1>
+            <a href="{{ fanfic.get_primary_fandom.type.get_url }}"><span
+                    style="text-transform: capitalize; color: rgba(112, 112,
+                     112, 0.78)">{{ fanfic.get_primary_fandom.type }}
+                ></span></a>
+            <a href="{{ fanfic.get_primary_fandom.get_url }}"><span
+                    style="color: #3B3B3B">
+                {{ fanfic.get_primary_fandom }}</span></a></span>
+        </h1>
+    </div>
+
+    <div class="column is-10" style="margin: 0 auto;">
+        {% if review %}
+            <p>
+                Review for <a
+                    href="{{ review.fanfic.get_url }}">
+                {{ review.fanfic.name }}</a>
+
+            </p>
+        {% endif %}
+        <div class="columns">
+            {% if not review %}
+                <div class="column">
+                    {% include 'utils/editor.html' %}
+                </div>
+            {% else %}
+
+                <div id="block-reviews" class="box">
+                    <article class="media">
+                        <div class="media-left">
+                            <figure class="image is-64x64">
+                                <img src="{{ review.user.get_image }}"
+                                     alt="Image">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <a href="
+{{ review.user.get_link }}"><strong
+                                    >{{ review.user }}</strong></a>
+                                    <small>{{ review.date }}</small>
+                                    <br>
+                                    {% generate_stars review.score %}
+                                    <br>
+                                </p>
+                                <div>
+                                    {{ review.text|safe }}
+                                </div>
+
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+
+                                    {% if review.user == user %}
+
+                                        <a class="level-item"
+                                           aria-label="edit" href="
+{% url 'reviews:review' review_id=review.id %}">
+                         <span class="icon is-small" title="Edit">
+                            <i class="fas fa-edit" aria-hidden="true"></i>
+                         </span>
+                                        </a>
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="_method"
+                                                   value="delete">
+                                            <button type="submit"
+                                                    class="level-item review-footer-icon"
+                                                    aria-label="delete"
+                                                    onclick="return confirm
+                                                    ('Are ' +
+                                                     'you sure you want to ' +
+                                                      'delete this review?')">
+                                                <a class="level-item"
+                                                   aria-label="edit">
+                                <span class="icon is-small" title="Delete">
+                                  <i class="fas fa-trash"
+                                     aria-hidden="true"></i>
+                                </span></a>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </nav>
+                        </div>
+                    </article>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

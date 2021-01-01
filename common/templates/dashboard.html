@@ -1,0 +1,300 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% load main_tags %}
+{% load notifier %}
+{% load user_tags %}
+{% load fandoms_tags %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block js %}
+    <script>
+        var csrftoken = "{{ csrf_token }}";
+    </script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="column is-14"
+         style="margin: 0 auto; padding: 1.0rem 0 0 0;  flex-wrap: wrap;
+         display: flex;
+    justify-content: flex-end;">
+
+        <button class="action-button action-colored"
+                onclick="location.href='{% url 'fanfics:external_add' %}';">
+            <div>
+                <p>Add fanfic</p>
+                <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                </span>
+            </div>
+        </button>
+    </div>
+
+    <div class="column is-14" style="margin: 0 auto;">
+        <div class="columns no-selectable">
+            <div class="column">
+                <h1>
+                    <span style="text-transform: capitalize; ">Last
+                        Chapters</span>
+                </h1>
+                <div class="box">
+                    {% get_new_chapters_for_user user.id as new_chapters_fanfics %}
+                    {% for fanfic in new_chapters_fanfics %}
+                        {% with fanfic.fanfic as fanfic %}
+                            {% chapters_user_has_read fanfic.id user.id as how_many_chapters_read %}
+                            <div style="display: flex; justify-content: space-between">
+                                <div style="max-width: 20em;">
+                                    <div>
+                                    <span class="dashboard-title">
+                                        {% with fanfic.get_primary_fandom as primary_fandom %}
+                                            {% with fanfic.get_secondary_fandom as secondary_fandom %}
+                                                {% if primary_fandom and secondary_fandom %}
+                                                    {{ primary_fandom }},
+                                                    {{ secondary_fandom }}
+                                                {% elif primary_fandom %}
+                                                    {{ primary_fandom }}
+                                                {% elif secondary_fandom %}
+                                                    {{ secondary_fandom }}
+                                                {% endif %}
+                                            {% endwith %}
+                                        {% endwith %}
+                                    </span>
+
+                                        <a href="
+{{ fanfic.get_url }}" style="text-transform: uppercase;">
+                                            <b>{{ fanfic.name }}</b></a>
+                                    </div>
+
+                                    <div>
+                                        <p class="date-dashboard">
+                                            {% if fanfic.last_time_updated is not None %}
+                                                Last updated:
+                                                {{ fanfic.last_time_updated|date:'b d, Y' }}
+                                            {% endif %}
+                                        </p>
+                                        <p class="pairings-dashboard">
+                                            {% for pairing in fanfic.get_pairings %}
+                                                [{{ pairing.character_one }},
+                                                {{ pairing.character_two }}]
+                                                {% if forloop.last is True %}-
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% for character in fanfic.get_characters %}
+                                                {{ character.character }}
+                                                {% if forloop.last is False %}
+                                                    ,
+                                                {% endif %}
+                                            {% endfor %}
+                                        </p>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="text-align: center">
+                                        {% compare_if_equal how_many_chapters_read fanfic.get_num_of_chapters as eq %}
+                                        {% compare_if_equal fanfic.get_num_of_chapters 0 as zero_chapters %}
+                                        {% if zero_chapters is False %}
+                                            <p class="chapters-dashboard">
+                                            <span class="how-many">
+                                                {{ how_many_chapters_read }}</span>/<span class="total-count">{{ fanfic.get_num_of_chapters }}</span>
+                                                Chapters
+                                            </p>
+
+                                            <button
+                                                    data-fanficid="{{ fanfic.id }}"
+                                                    class="action-button
+                                            action-colored-inverse-gray
+                                            mark-as-read"
+                                                    {% if eq is True %}disabled
+                                                    {% endif %}
+                                                    style="display: block;
+                                                            {% if eq is True %}visibility:hidden{% endif %}">
+                                                <div>
+                                                    <p style="margin-right: 0">
+                                                        Mark
+                                                        as Read</p>
+                                                </div>
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if forloop.last is False %}
+                                <div class="is-divider-light"></div>
+                            {% endif %}
+                        {% endwith %}
+                    {% empty %}
+                        {% include "empty_space.html" %}
+                        <style>
+                            .empty-block {
+                                margin-top: 1rem;
+                                text-align: center;
+                                width: 50%;
+                                margin: 0 auto;
+                            }
+                        </style>
+                    {% endfor %}
+                </div>
+            </div>
+            <div style="width: 5%"></div>
+            <div class="column">
+                <h1>
+                    <span
+                            style="text-transform: capitalize; color: rgba(112, 112,
+                     112, 0.78)">Recently Read</span>
+                </h1>
+                <div class="box">
+                    {% get_user_recently_read_chapters user.id as recently_read_chapters %}
+                    {% for reading in recently_read_chapters %}
+                        {% with reading.chapter.fanfic as fanfic %}
+                            <div style="display: flex; justify-content: space-between">
+                                <div style="max-width: 20em;">
+                                    <div>
+                                    <span class="dashboard-title">
+                                        {% with fanfic.get_primary_fandom as primary_fandom %}
+                                            {% with fanfic.get_secondary_fandom as secondary_fandom %}
+                                                {% if primary_fandom and secondary_fandom %}
+                                                    {{ primary_fandom }},
+                                                    {{ secondary_fandom }}
+                                                {% elif primary_fandom %}
+                                                    {{ primary_fandom }}
+                                                {% elif secondary_fandom %}
+                                                    {{ secondary_fandom }}
+                                                {% endif %}
+                                            {% endwith %}
+                                        {% endwith %}
+                                    </span>
+
+                                        <a href="
+{{ fanfic.get_url }}" style="text-transform: uppercase;">
+                                            <b>{{ fanfic.name }}</b></a>
+                                    </div>
+
+                                    <div>
+                                        <p class="date-dashboard">
+                                            {% if fanfic.last_time_updated is not None %}
+                                                Last updated:
+                                                {{ fanfic.last_time_updated|date:'b d, Y' }}
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div style="    align-self: center;">
+                                    <div style="text-align: center">
+                                        <p class="chapters-dashboard">
+                                            Chapter
+                                            {{ reading.chapter.num_chapter }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if forloop.last is False %}
+                                <div class="is-divider-compressed"></div>
+                            {% endif %}
+                        {% endwith %}
+                    {% empty %}
+                        {% include "empty_space.html" %}
+                        <style>
+                            .empty-block {
+                                margin-top: 1rem;
+                                text-align: center;
+                                width: 50%;
+                                margin: 0 auto;
+                            }
+                        </style>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="is-divider-strong"
+             style="margin-top: 2.3em; margin-bottom: 2.4em;"></div>
+        <div class="columns no-selectable">
+            <div class="column is-one-quarter">
+                <h1>
+                    <span
+                            style="text-transform: capitalize; color: rgba(112, 112,
+                     112, 0.78)">Recently Added</span>
+                </h1>
+                <div class="box">
+                    {% get_recently_added_fanfics user.id as recently_added_fanfics %}
+                    {% for fanfic_list in recently_added_fanfics %}
+                        {% with fanfic_list.fanfic as fanfic %}
+                            <div>
+                                <div>
+                                    <span class="dashboard-title">
+                                        {% with fanfic.get_primary_fandom as primary_fandom %}
+                                            {% with fanfic.get_secondary_fandom as secondary_fandom %}
+                                                {% if primary_fandom and secondary_fandom %}
+                                                    {{ primary_fandom }},
+                                                    {{ secondary_fandom }}
+                                                {% elif primary_fandom %}
+                                                    {{ primary_fandom }}
+                                                {% elif secondary_fandom %}
+                                                    {{ secondary_fandom }}
+                                                {% endif %}
+                                            {% endwith %}
+                                        {% endwith %}
+                                    </span>
+
+                                    <a href="
+{{ fanfic.get_url }}" style="text-transform: uppercase;">
+                                        <b>{{ fanfic.name }}</b></a>
+                                </div>
+
+                                <div>
+                                    <p class="date-dashboard">
+                                        {% if fanfic.author is not None %}
+                                            By {{ fanfic.author }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {% if forloop.last is False %}
+                                <div class="is-divider-compressed"></div>
+                            {% endif %}
+                        {% endwith %}
+                    {% empty %}
+                        {% include "empty_space.html" %}
+                        <style>
+                            .empty-block {
+                                margin-top: 1rem;
+                                text-align: center;
+                                width: 100%;
+                                margin: 0 auto;
+                            }
+                        </style>
+                    {% endfor %}
+                </div>
+            </div>
+            <div style="width: 5%"></div>
+            <div class="column">
+                {% if user_notifications|length == 0 %}
+                    {% include "empty_space.html" %}
+                    <style>
+                        .empty-block {
+                            margin-top: 1rem;
+                            text-align: center;
+                            width: 50%;
+                            margin: 0 auto;
+                        }
+                    </style>
+                {% else %}
+                    <div style="padding-top: 1.2rem;" id="recent-activity"
+                    >{% feed_text %}</div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

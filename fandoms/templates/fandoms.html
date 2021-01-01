@@ -1,0 +1,106 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% load main_tags %}
+{% load notifier %}
+{% load user_tags %}
+{% load fandoms_tags %}
+
+{% block title %}{{ media_type }}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/fandoms.css' %}">
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="column is-14"
+         style="margin: 0 auto; padding: 1.0rem 0 1.4rem 0;  flex-wrap: wrap;
+         display: flex;
+    justify-content: space-between;">
+        <h1>
+            <span style="text-transform: capitalize; ">{{ media_type }}</span>
+        </h1>
+
+        <button class="action-button action-colored"
+                onclick="location.href='{% url 'fanfics:external_add' %}';">
+            <div>
+                <p>Add fanfic</p>
+                <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                </span>
+            </div>
+        </button>
+    </div>
+
+    <div class="column is-14" style="margin: 0 auto;">
+        <div class="is-divider-strong"></div>
+        <div id="abc">
+            <a {% if letter and letter == 'a' or letter == 'A' %}class="letter-active" {% endif %}href="?starts_with=a">a</a>
+            <a {% if letter and letter == 'b' or letter == 'B' %}class="letter-active" {% endif %}href="?starts_with=b">b</a>
+            <a {% if letter and letter == 'c' or letter == 'C' %}class='letter-active' {% endif %}href='?starts_with=c'>c</a>
+            <a {% if letter and letter == 'd' or letter == 'D' %}class='letter-active' {% endif %}href='?starts_with=d'>d</a>
+            <a {% if letter and letter == 'e' or letter == 'E' %}class='letter-active' {% endif %}href='?starts_with=e'>e</a>
+            <a {% if letter and letter == 'f' or letter == 'F' %}class='letter-active' {% endif %}href='?starts_with=f'>f</a>
+            <a {% if letter and letter == 'g' or letter == 'G' %}class='letter-active' {% endif %}href='?starts_with=g'>g</a>
+            <a {% if letter and letter == 'h' or letter == 'H' %}class='letter-active' {% endif %}href='?starts_with=h'>h</a>
+            <a {% if letter and letter == 'i' or letter == 'I' %}class='letter-active' {% endif %}href='?starts_with=i'>i</a>
+            <a {% if letter and letter == 'j' or letter == 'J' %}class='letter-active' {% endif %}href='?starts_with=j'>j</a>
+            <a {% if letter and letter == 'k' or letter == 'K' %}class='letter-active' {% endif %}href='?starts_with=k'>k</a>
+            <a {% if letter and letter == 'l' or letter == 'L' %}class='letter-active' {% endif %}href='?starts_with=l'>l</a>
+            <a {% if letter and letter == 'm' or letter == 'M' %}class='letter-active' {% endif %}href='?starts_with=m'>m</a>
+            <a {% if letter and letter == 'n' or letter == 'N' %}class='letter-active' {% endif %}href='?starts_with=n'>n</a>
+            <a {% if letter and letter == 'o' or letter == 'O' %}class='letter-active' {% endif %}href='?starts_with=o'>o</a>
+            <a {% if letter and letter == 'p' or letter == 'P' %}class='letter-active' {% endif %}href='?starts_with=p'>p</a>
+            <a {% if letter and letter == 'q' or letter == 'Q' %}class='letter-active' {% endif %}href='?starts_with=q'>q</a>
+            <a {% if letter and letter == 'r' or letter == 'R' %}class='letter-active' {% endif %}href='?starts_with=r'>r</a>
+            <a {% if letter and letter == 's' or letter == 'S' %}class='letter-active' {% endif %}href='?starts_with=s'>s</a>
+            <a {% if letter and letter == 't' or letter == 'T' %}class='letter-active' {% endif %}href='?starts_with=t'>t</a>
+            <a {% if letter and letter == 'u' or letter == 'U' %}class='letter-active' {% endif %}href='?starts_with=u'>u</a>
+            <a {% if letter and letter == 'v' or letter == 'V' %}class='letter-active' {% endif %}href='?starts_with=v'>v</a>
+            <a {% if letter and letter == 'w' or letter == 'W' %}class='letter-active' {% endif %}href='?starts_with=w'>w</a>
+            <a {% if letter and letter == 'x' or letter == 'X' %}class='letter-active' {% endif %}href='?starts_with=x'>x</a>
+            <a {% if letter and letter == 'y' or letter == 'Y' %}class='letter-active' {% endif %}href='?starts_with=y'>y</a>
+            <a {% if letter and letter == 'z' or letter == 'Z' %}class='letter-active' {% endif %}href='?starts_with=z'>z</a>
+        </div>
+        <div class="is-divider-strong" style="margin-top: 0.5rem;
+        margin-bottom:2rem"></div>
+
+        <div class="columns">
+            <div class="box column">
+                <div class="no-selectable">
+                    <div id="block-fandoms">
+                        {% for fandom in fandoms %}
+                            {% number_of_fanfics_in_fandom fandom.id as number %}
+                            <p><a href="{{ fandom.get_url }}">{{ fandom }}
+                                ({{ number }})</a>
+                            </p>
+                        {% endfor %}
+                    </div>
+
+                    {% if fandoms|length == 0 %}
+                        {% include "empty_space.html" %}
+                        <style>
+                            .empty-block {
+                                margin-top: 1rem;
+                                text-align: center;
+                                width: 50%;
+                                margin: 0 auto;
+                            }
+                        </style>
+                    {% endif %}
+
+
+                    {% if letter %}
+                        {% paginate "&starts_with="|add:letter %}
+                    {% else %}
+                        {% paginate %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+{% endblock %}

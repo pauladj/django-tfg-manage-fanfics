@@ -1,0 +1,22 @@
+.one-list-manage {
+    display: flex;
+    align-items: center;
+    padding-bottom: 1em;
+}
+
+.one-list-manage input:first-child {
+    margin-right: 1em;
+}
+
+.input[disabled] {
+    cursor: pointer;
+}
+
+#new-lists {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#new-lists input {
+    margin-bottom: 0.8em;
+}

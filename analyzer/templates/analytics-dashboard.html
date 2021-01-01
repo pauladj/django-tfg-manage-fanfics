@@ -1,0 +1,25 @@
+{% extends 'admin/index.html' %}
+
+{% block title %}Analytics | Fickeeper{% endblock %}
+
+{% block nav-global %}
+    <a href="/fickeeper">Go back</a>
+{% endblock %}
+
+{% block content %}
+    <h1>Data of the last 30 days</h1>
+    <div>
+        {% if not error %}
+            <img src="{{ times_added_fandoms }}"/>
+            <br>
+            <br>
+            <br>
+            <br>
+            <img src="{{ times_added_genres }}"/>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block sidebar %}
+{% endblock %}

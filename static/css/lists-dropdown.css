@@ -1,0 +1,21 @@
+.libraries-container-dropdown {
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    background: white;
+    box-shadow: 1px 3px 6px 3px #00000014;
+    z-index: 999;
+    border-radius: 0px 10px 10px 10px;
+    padding: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.libraries-search-container-dropdown {
+    margin-bottom: 1rem;
+}
+
+.one-list-row {
+    padding-bottom: 0.4em;
+    font-size: 0.85em;
+}

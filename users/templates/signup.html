@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block js %}
+<script type="text/javascript" src="{% static "js/external/jquery-3.3.1.min.js" %}"></script>
+<script>
+    var check_username_url = "{% url 'check_username' %}";
+</script>
+<script type="text/javascript" src="{% static "js/usernameChecker.js" %}"></script>
+{% endblock %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block body_title %}<a class="login-title" href="{% url 'signup' %}">Sign Up</a>{% endblock %}
+{% block body_subtitle %}Hi there! Join us here{% endblock %}
+
+{% block checkusername %}
+    <div class="control has-icons-right">
+        {{ field|add_class:"input" }}
+        <span class="icon is-small is-right">
+        <i class="username_fail fa fa-times" style="color: #CF3737; display: none"></i>
+        <i id="spinner" class="fa fa-spinner fa-spin" style="display: none"></i>
+        </span>
+    </div>
+    <span class="username_fail help is-danger" style="display:none">Username already exists</span>
+{% endblock %}
+
+{% block body_btn %}Sign Up{% endblock %}
+
+{% block links %}
+<p>
+    Already have an account? <a href="{% url 'login' %}">Log In</a>
+    <br>
+    <a class="link-secundario" href="{% url 'password_reset' %}">Forgot Password?</a>
+</p>
+{% endblock %}

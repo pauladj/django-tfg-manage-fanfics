@@ -1,0 +1,389 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% load main_tags %}
+{% load notifier %}
+{% load user_tags %}
+{% load fandoms_tags %}
+{% load list_tags %}
+
+{% block title %}{% if fandom %}{{ fandom }}{% else %}Fanfics
+{% endif %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/fanfic-page.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fandoms.css' %}">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/fandoms.js' %}"></script>
+
+    <script>
+        var csrftoken = "{{ csrf_token }}";
+        var user_id = "{{ user.id }}";
+    </script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+
+{% endblock %}
+
+
+{% block body %}
+
+    {% initialize_list_dropdown user.id as user_lists %}
+
+    <div class="column is-14"
+         style="margin: 0 auto; padding-top: 1.0rem; padding-bottom: 1.4rem;
+         padding-left:0; flex-wrap: wrap;   display: flex;  justify-content:
+          space-between;">
+        <h1>
+            <a href="{% url 'user_fanfics' user_id=fanfics_user.id %}"><span
+                    style="text-transform: capitalize; color: rgba(112, 112,
+                     112, 0.78)">{% if fanfics_user.id == user.id %}
+                My Fanfics{% else %}{{ fanfics_user }}'s Fanfics{% endif %}
+                {% if fandom %}>{% endif %}</span></a>
+            {% if fandom %}
+                <a href=""><span
+                        style="color: #3B3B3B"> {{ fandom }}</span></a>
+            {% endif %}
+        </h1>
+
+        <button class="action-button action-colored"
+                onclick="location.href='{% url 'fanfics:external_add' %}';">
+            <div>
+                <p>Add fanfic</p>
+                <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                </span>
+            </div>
+        </button>
+    </div>
+
+    <div class="column is-14" style="margin: 0 auto;">
+        <div class="is-divider-strong" style="margin-top: -0.9rem;
+        margin-bottom:1.9rem"></div>
+
+        <div class="columns">
+            <div class="box column left-fandoms-sidebar" style="margin-right:
+            1em;">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-small search-in-fandom-sidebar"
+                               type="text"
+                               placeholder="Search fandom...">
+                    </div>
+                </div>
+
+                {% get_fandoms fanfics_user.id as user_fandoms %}
+                {% for f in user_fandoms %}
+                    <a class="one-fandom-row"
+                       href="
+{% url "user_fanfics" user_id=fanfics_user.id %}?fandom_id={{ f.id }}">
+                        <div
+                                {% if fandom and f.id == fandom.id %}class="fandom-row-selected"{% endif %}>
+
+                            {{ f.name }}
+                        </div>
+                    </a>
+                {% endfor %}
+
+            </div>
+
+            <div class="column is-three-quarters" style="padding-top: 0">
+                <div class="no-selectable">
+                    {% if fandom %}
+                        <div style="display: flex; justify-content:
+                        space-between;     align-items: baseline;">
+
+                            {% initialize_list_dropdown fanfics_user.id as lists_user_profile %}
+
+                            <select id="choose-list" class="action-button
+                                    action-colored-white"
+                                    style="padding-top: 0.51em;padding-bottom: 0.59em;">
+                                {% if list_chose is None %}
+                                    <option value="" disabled selected>Select
+                                        list
+                                    </option>
+                                {% else %}
+                                    <option data-fandomid="{{ fandom.id }}"
+                                            value="0">All
+                                    </option>
+                                {% endif %}
+                                {% for list_user_profile in lists_user_profile %}
+                                    {% compare_if_equal list_chose list_user_profile.id as is_equal %}
+                                    <option data-fandomid="{{ fandom.id }}"
+                                            value="
+{{ list_user_profile.id }}" {% if is_equal is True %}selected{% endif %}>
+                                        {{ list_user_profile.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <button class="action-button action-colored-white open-modal"
+                                    style="margin-bottom: 3em; margin-top: -1.2em">
+                                <div>
+                                    <p>Filter by</p>
+                                    <i class="fas fa-sort-amount-down"></i>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div class="is-divider-strong" style="margin-top: -0.9rem;
+        margin-bottom:1.4rem"></div>
+
+                        <div class="box">
+
+                            <div id="block-fanfics">
+
+                                {% for fanfic in fanfics %}
+                                    <div class="single-fanfic">
+                                        <div class="single-fanfic-left">
+                                            <div><a href="
+{{ fanfic.fanfic.get_url }}" style="text-transform: uppercase;">
+                                                <b>{{ fanfic.fanfic.name }}</b></a>
+                                                {% if fanfic.fanfic.complete is True %}
+                                                    <div class="green-label
+                                            no-selectable"
+                                                         style="font-size: 0.7rem;">
+                                                        Completed
+                                                    </div>{% endif %}
+                                            </div>
+
+
+                                            <div class="fanfic-average-score"
+                                                 style="font-size: 0.9em; margin-bottom: 0.3em;">
+                                                <div style="margin-right: 0.7rem;">
+                                                    {% generate_stars fanfic.fanfic.average_score "small" %}
+                                                </div>
+
+                                                {% if fanfic.fanfic.average_score is None %}
+                                                    0.00
+                                                {% else %}
+                                                    {{ fanfic.fanfic.average_score }}
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="fanfic-info-block">
+                                                <p>
+                                                    by {{ fanfic.fanfic.author }}
+                                                    {% if fanfic.fanfic.rating is not None %}
+                                                        -
+                                                        {{ fanfic.fanfic.rating }}
+                                                    {% endif %}
+                                                    {% if fanfic.fanfic.language is not None %}
+                                                        -
+                                                        {{ fanfic.fanfic.language }}
+                                                    {% endif %}
+                                                    {% if fanfic.fanfic.genre1 is not None %}
+                                                        -
+                                                        {{ fanfic.fanfic.get_genre1_display }}
+                                                        /{% endif %}
+                                                    {% if fanfic.fanfic.genre2 is not None %}
+                                                        {{ fanfic.fanfic.get_genre2_display }}
+                                                    {% endif %}
+                                                </p>
+                                                <p>
+                                                    {% if fanfic.fanfic.last_time_updated is not None %}
+                                                        Last updated:
+                                                        {{ fanfic.fanfic.last_time_updated|date:'b d, Y' }}
+                                                    {% endif %}
+                                                    {% if fanfic.fanfic.last_time_checked is not None %}
+                                                        {% if fanfic.fanfic.last_time_updated is not None %}
+                                                            -
+                                                        {% endif %}
+                                                        Last checked:
+                                                        {{ fanfic.fanfic.last_time_checked|date:'b d, Y' }}{% endif %}
+                                                </p>
+                                                <p>
+                                                    {% if fanfic.fanfic.num_words is not None %}
+                                                        {{ fanfic.fanfic.num_words }}
+                                                        Words{% endif %}
+                                                </p>
+                                            </div>
+                                            <p class="pairings-characters">
+                                                {% for pairing in fanfic.fanfic.get_pairings %}
+                                                    [
+                                                    {{ pairing.character_one }}
+                                                    ,
+                                                    {{ pairing.character_two }}
+                                                    ]
+                                                    {% if forloop.last is True %}
+                                                        -
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% for character in fanfic.fanfic.get_characters %}
+                                                    {{ character.character }}
+                                                    {% if forloop.last is False %}
+                                                        ,
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </p>
+
+                                        </div>
+                                        <div class="single-fanfic-right">
+                                            <div style="display: flex;
+                                    justify-content: space-between; align-items: center;">
+
+                                                <div style="text-align: center">
+                                                    {% chapters_user_has_read fanfic.fanfic.id user.id as how_many_chapters_read %}
+
+                                                    {% compare_if_equal how_many_chapters_read fanfic.fanfic.get_num_of_chapters as eq %}
+                                                    {% compare_if_equal fanfic.fanfic.get_num_of_chapters 0 as zero_chapters %}
+                                                    {% if zero_chapters is False %}
+                                                        <p class="chapters-dashboard">
+                                            <span class="how-many">
+                                                {{ how_many_chapters_read }}</span>/<span
+                                                                class="total-count">{{ fanfic.fanfic.get_num_of_chapters }}</span>
+                                                            Chapters
+                                                        </p>
+
+                                                        <button
+                                                                data-fanficid="{{ fanfic.fanfic.id }}"
+                                                                class="action-button
+                                            action-colored-inverse-gray
+                                            mark-as-read"
+                                                                {% if eq is True %}disabled
+                                                                {% endif %}
+                                                                style="display: block;
+                                                                        {% if eq is True %}visibility:hidden{% endif %}">
+                                                            <div>
+                                                                <p style="margin-right: 0">
+                                                                    Mark
+                                                                    as Read</p>
+                                                            </div>
+                                                        </button>
+                                                    {% endif %}
+                                                </div>
+
+                                            </div>
+                                            <div style="align-self: flex-end;">
+                                                {% add_fanfic_button fanfic.fanfic.id %}
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    {% if forloop.last is False %}
+                                        <div class="is-divider-strong"
+                                             style="margin-top: 0.7rem;
+        margin-bottom:2rem"></div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            {% if fanfics|length == 0 %}
+                                {% include "empty_space.html" %}
+                                <style>
+                                    .empty-block {
+                                        margin-top: 1rem;
+                                        text-align: center;
+                                        width: 50%;
+                                        margin: 0 auto;
+                                    }
+                                </style>
+                            {% endif %}
+                            {% paginate pagination_append %}
+                        </div>
+                        </div>
+                    {% endif %}
+            </div>
+        </div>
+
+        {% if fandom %}
+            <div class="modal" id="modal">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Filter fanfics</p>
+                        <button class="delete" aria-label="close"></button>
+                    </header>
+                    <form method="get">
+                        <input type="hidden" name="fandom_id"
+                               value="{{ fandom.id }}">
+                        {% if list_chose %}
+                            <input type="hidden" name="list"
+                                   value="{{ list_chose }}">
+                        {% endif %}
+                        <section class="modal-card-body">
+                            <div class="form-filter">
+                                {% for field in form_filter %}
+                                    <div>
+                                        {{ field.label_tag }}
+                                        <br>
+                                        {% get_characters_of_fandom fandom.id as characters %}
+                                        {% if field.label == "Language" %}
+
+                                            <div class="select">
+                                                <select name="language"
+                                                        id="id_language">
+                                                    {% get_all_different_languages as languages %}
+                                                    <option value="0"
+                                                    >All
+                                                    </option>
+
+                                                    {% for val in languages %}
+                                                        <option value="{{ val.language }}"
+                                                                {% if form_filter.language.value == val.language %}selected{% endif %}
+                                                        >{{ val.language }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        {% elif field.label == "Character a" %}
+                                            <div class="select">
+                                                <select name="character_a"
+                                                        id="id_character_a">
+
+                                                    <option value="0"
+                                                    >All
+                                                    </option>
+
+                                                    {% for val in characters %}
+                                                        {% compare_if_equal val.id form_filter.character_a.value as is_equal_a %}
+                                                        <option value="{{ val.id }}"
+                                                                {% if is_equal_a is True %}selected{% endif %}>
+                                                            {{ val.name_surname }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        {% elif field.label == "Character b" %}
+                                            <div class="select">
+
+                                                <select name="character_b"
+                                                        id="id_character_b">
+
+                                                    <option value="0"
+                                                    >All
+                                                    </option>
+
+                                                    {% for val in characters %}
+                                                        {% compare_if_equal val.id form_filter.character_b.value as is_equal_b %}
+                                                        <option value="{{ val.id }}"
+                                                                {% if is_equal_b is True %}selected{% endif %}>
+                                                            {{ val.name_surname }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        {% else %}
+                                            <div class="select">
+                                                {{ field }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </section>
+                        <footer class="modal-card-foot"
+                                style="justify-content: flex-end">
+                            <button type="button" class="button secondary-button
+                        grey cancel-modal">Cancel
+                            </button>
+                            <button type="submit" class="button
+                        login-button">Filter
+                            </button>
+                        </footer>
+                    </form>
+
+                </div>
+            </div>
+        {% endif %}
+
+{% endblock %}

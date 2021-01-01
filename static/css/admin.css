@@ -1,0 +1,19 @@
+.custom-select {
+    width: 100%;
+}
+
+.related-widget-wrapper {
+    width: 100%;
+    overflow: visible;
+}
+
+.form-row {
+    overflow: visible;
+    border-bottom: none;
+}
+
+/* It doesn't matter if the user uses this buttons,
+but the dropdowns won't be refreshed*/
+.related-widget-wrapper-link {
+    display: none;
+}

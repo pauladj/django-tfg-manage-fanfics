@@ -1,0 +1,171 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% load main_tags %}
+
+{% block title %}User Settings{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{% static "js/file-selector.js" %}"></script>
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "css/file-selector.css" %}">
+{% endblock %}
+
+{% block body %}
+<div class="column is-10" style="margin: 0 auto;">
+    <a href="{% url 'edit_profile_user' user_id=user.id %}">
+        <H1>{% block boxtitle %}User Settings{% endblock %}</H1>
+    </a>
+    <br>
+    <div class="columns">
+        <div class="column">
+            <a href="{% url 'edit_profile_user' user_id=user.id %}"
+            onclick="return confirm('Are you sure you want to go? All the unsaved changes will be lost')">
+                <div class="sidebar-tab {% if section == 'profile' %}sidebar-tab-active{%endif%}">
+                    <p><i class="fas fa-user"></i>
+                        Profile</p>
+                </div>
+            </a>
+            <a href="{% url 'edit_general_user' user_id=user.id %}"
+                onclick="return confirm('Are you sure you want to go? All the unsaved changes will be lost')">
+                <div class="sidebar-tab {% if section == 'general' %}sidebar-tab-active{%endif%}">
+                    <p><i class="fas fa-cog"></i>
+                        General</p>
+                </div>
+            </a>
+        </div>
+        <div class="column is-three-quarters">
+            <div class="box">
+                {% block inside_box %}
+
+                {% if section == 'profile' %}
+                {% comment %} It's profile settings{% endcomment %}
+                <h3>Profile</h3>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="put">
+                    <div style="display: flex; justify-content: space-between; ">
+                        <div style="width: 68%">
+                            <div class="login-field">
+                                Username:
+                                <i style="font-size:0.5rem; color: #CF3737;" class="fas fa-xs fa-asterisk"></i>
+                                <input type="text" name="name_surname" value="{{user.username}}" class="input"
+                                    style="width:100%" disabled>
+                            </div>
+                            {% for field in form %}
+                            <div class="login-field">
+                                {{ field.label_tag }}
+                                {% if field.field.required %}
+                                <i style="font-size:0.5rem; color: #CF3737;" class="fas fa-xs fa-asterisk"></i>
+                                {% endif %}
+                                <br>
+                                {% if field.errors %}
+                                <div
+                                    class="control {% if 'Select' not in field|input_type %}has-icons-right{% endif %}">
+                                    {% if "Select" in field|input_type %}
+                                    <div class="select is-danger" style="width: 100%">
+                                        {% render_field field style+="width:100%" %}
+                                    </div>
+                                    {% elif "Textarea" in field|input_type %}
+                                    {% render_field field style+="width:100%" class+="textarea is-danger" %}
+                                    {% else %}
+                                    {% render_field field style+="width:100%" class+="input is-danger" %}
+                                    {% endif %}
+                                    {% if 'Select' not in field|input_type %}
+                                    <span class="icon is-small is-right">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <p class="help is-danger">
+                                    {% for error in field.errors %}
+                                    {{ error }}
+                                    {% endfor %}</p>
+                                {% else %}
+                                {% if "Select" in field|input_type %}
+                                <div class="select" style="width: 100%">
+                                    {% render_field field style+="width:100%" %}
+                                </div>
+                                {% elif "Textarea" in field|input_type %}
+                                {% render_field field style+="width:100%" class+="textarea" %}
+                                {% else %}
+                                {% render_field field style+="width:100%" class+="input" %}
+                                {% endif %}
+                                {% endif %}
+                                {% if field.help_text %}
+                                <span class="help">{% autoescape off %}{{ field.help_text }}{% endautoescape %}</span>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div style="padding-left: 29px;">
+                            <img src="{{user.get_image }}" width="200px" height="200px" style="max-height: 200px; max-width: 200px; object-fit:cover;" />
+                            <br />
+                            <input type="file" name="profileImage" class="inputfile inputfile-2" id="file"
+                                accept="image/gif, image/jpeg, image/png">
+                            <label for="file" class="file-label">
+                                <input class="file-input" type="file" name="resume">
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label" id="filename" style="text-overflow: ellipsis;
+                        max-width: 8em; display: block;">
+                                        Choose a file…
+                                    </span>
+                                </span>
+                            </label>
+                            <h4>Max. 1MB</h4>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end;">
+                        <a href="{% url 'edit_profile_user' user_id=user.id %}"
+                            class="button secondary-button grey">Cancel</a>
+                        <button id="submitButton" type="submit"
+                            class="button login-button">Save</button>
+                    </div>
+                </form>
+                {% elif section == 'general' %}
+                {% comment %} It's general settings{% endcomment %}
+                <h3>General</h3>
+                    <p> <a href="
+{% url 'user_backup' user_id=user.id %}">Create backup of my data</a></p>
+                    <br>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="put">
+                    Who can see my added fanfics?
+                    <br>
+                    <div class="control" style="margin-top: 0.3em;">
+                        <label class="radio">
+                        <input type="radio" name="rsvp" value="1" {% if user.privacy == 1 %} checked {% endif %}>
+                        People I follow
+                        </label>
+                        <br>
+                        <label class="radio">
+                        <input type="radio" name="rsvp" value="2" {% if user.privacy == 2 %} checked {% endif %}>
+                        All the members
+                        </label>
+                        <br>
+                        <label class="radio">
+                        <input type="radio" name="rsvp" value="3" {% if user.privacy == 3 %} checked {% endif %}>
+                        Nobody
+                        </label>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end;">
+                            <a href="{% url 'edit_profile_user' user_id=user.id %}"
+                                class="button secondary-button grey">Cancel</a>
+                            <button type="submit" class="button login-button">Save</button>
+                        </div>
+                </form>
+
+                {%endif%}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,373 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% load main_tags %}
+{% load notifier %}
+{% load user_tags %}
+{% load list_tags %}
+
+{% block title %}{{ fanfic.name }}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fanfic-page.css' %}">
+{% endblock %}
+
+{% block js %}
+    <script>
+    var csrftoken = "{{  csrf_token }}";
+    </script>
+    <script src="{% static 'js/external/readMoreJS.min.js' %}"></script>
+    <script src="{% static 'js/readmore.js' %}"></script>
+    <script src="{% static 'js/fanfic-page.js' %}"></script>
+{% endblock %}
+
+
+{% block body %}
+
+    {% initialize_list_dropdown user.id as user_lists %}
+
+    <div class="column is-10"
+         style="margin: 0 auto; padding: 1.0rem 0 1.4rem 0">
+        <h1>
+            <a href="{{ fanfic.get_primary_fandom.type.get_url }}"><span
+                    style="text-transform: capitalize; color: rgba(112, 112,
+                     112, 0.78)">{{ fanfic.get_primary_fandom.type }}
+                ></span></a>
+            <a href="{{ fanfic.get_primary_fandom.get_url }}"><span
+                    style="color: #3B3B3B">
+                {{ fanfic.get_primary_fandom }}</span></a>
+        </h1>
+    </div>
+
+    <div class="column is-10" style="margin: 0 auto;">
+        <div class="columns">
+            <div class="box column">
+                <div class="no-selectable" style="display:flex;">
+                    <div style="padding-right: 3.2em; margin: 0 auto; padding-bottom: 2rem;">
+                        <img src="{{ fanfic.get_primary_fandom.get_image }}"
+                             alt="{{ fanfic.name }}" width="200px"
+                             height="200px"
+                             style="max-height: 200px; min-width: 200; min-height: 200px; max-width: 200px; object-fit:cover;  border-radius: 100%; box-shadow: 0px 2px 2px 0px #a2a2a2;"/>
+                        <div style="display:flex; justify-content:space-between; text-align:center; flex-wrap: wrap; flex-flow: row wrap;   margin-top: 0.9em;">
+                            <div class="profile-sidebar">
+                                <h1>{% if fanfic.get_num_reviews > 999 %}999<i style="font-size: 1rem; vertical-align: top;"
+                                                                               class="fas fa-plus fa-xs"></i>{% else %}
+                                    {{ fanfic.get_num_reviews }}{% endif %}</h1>
+                                <h3>Reviews</h3>
+                            </div>
+                            <div class="profile-sidebar">
+                                <h1>{% if fanfic.get_num_of_users > 999 %}999
+                                    <i style="font-size: 1rem; vertical-align: top;"
+                                       class="fas fa-plus fa-xs"></i>{% else %}{{ fanfic.get_num_of_users }}{% endif %}</h1>
+                                <h3>Followers</h3>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: center;">
+                             {% add_fanfic_button fanfic.id %}
+
+                        </div>
+                        <br>
+                       <button class="action-button action-colored-white open-modal"
+                                style="margin-bottom: 3em; display: flex;
+                                margin: 0 auto">
+                            <div>
+                                <p>Report error</p>
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </button>
+
+                    </div>
+                    <div style="flex-grow: 1">
+                        <div style="display: flex;align-items: center;
+                        flex-wrap: wrap;"><p class="fanfic-title">
+                            {{ fanfic.name }}
+                        </p> {% if fanfic.complete is True %}
+<div class="green-label no-selectable">Completed</div>{% endif %}</div>
+
+                    <p class="fanfic-author">by {{ fanfic.author }}</p>
+                    <div class="fanfic-average-score">
+                        <div style="margin-right: 0.7rem;">
+                            {% generate_stars fanfic.average_score %}
+                        </div>
+
+                        {% if fanfic.average_score is None %}
+                            0.00
+                        {% else %}
+                            {{ fanfic.average_score }}
+                        {% endif %}
+
+                    </div>
+
+                    <div class="fanfic-info-block">
+                        <p>{% if fanfic.rating is not None %}{{ fanfic.rating }} {% endif %}
+                            {% if fanfic.language is not None %}- {{ fanfic.language }} {% endif %}
+                            {% if fanfic.genre1 is not None %}- {{ fanfic.get_genre1_display }}/{% endif %}{% if fanfic.genre2 is not None %}{{ fanfic.get_genre2_display }}/{% endif %}{% if fanfic.genre3 is not None %}{{ fanfic.get_genre3_display }}/{% endif %}{% if fanfic.genre4 is not None %}{{ fanfic.get_genre4_display }}{% endif %}</p>
+                        <p>
+                            {% if fanfic.last_time_updated is not None %}Last published:
+                                {{ fanfic.last_time_updated|date:'b d, Y' }} {% endif %}
+                            {% if fanfic.last_time_checked is not None %}- Last checked:
+                                {{ fanfic.last_time_checked|date:'b d, Y' }}{% endif %}
+                        </p>
+
+                        <p>
+                            {% if fanfic.num_chapters != 0 %}{{ fanfic.num_chapters }} Chapters {% endif %}
+                            {% if fanfic.num_words is not None %}- {{ fanfic.num_words }} Words{% endif %}
+                        </p>
+                    </div>
+                    <p class="pairings-characters">
+                        {% for pairing in fanfic.get_pairings %}
+                            [{{ pairing.character_one }}, {{ pairing.character_two }}]
+                            {% if forloop.last is True %}
+                                 -
+                            {% endif %}
+                        {% endfor %}
+                        {% for character in fanfic.get_characters %}
+                            {{ character.character }}{% if forloop.last is False %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <div style="display: flex; justify-content: space-between; flex-wrap: wrap">
+                        <div class="fanfic-info-block" style="margin-right: 1rem;">
+                            <p>Hosted by</p>
+                            <a href="{{ fanfic.web }}">{{ fanfic.web|truncatechars:29 }}</a>
+                        </div>
+                        <div class="fanfic-info-block">
+                            <p>You may also like</p>
+                            <ul>
+                                {% for one_fanfic_related in related %}
+                                    <li><a href="
+{{ one_fanfic_related.fanfic_two.get_url }}">
+                                        {{ one_fanfic_related.fanfic_two }}</a></li>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                </div>
+              <div class="is-divider"></div>
+
+        <h1 class="no-selectable" style="text-align:center;  margin-top: 3.5rem;
+        margin-bottom: 2.3rem;">Chapters</h1>
+        <div id="block-chapters">
+            {% if not chapters or chapters|length == 0 %}
+                {% include "empty_space.html" %}
+                <style>
+                    .empty-block{
+                        margin-top: 1rem;
+                        text-align: center;
+                        width: 50%;
+                        margin: 0 auto;
+                    }
+                </style>
+            {% else %}
+                <div class="readings-menu">
+                    <form action="{% url 'chapters_fanfics:chapters' fanfic_id=fanfic.id%}"
+                    method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="_method" value="delete">
+                        <button onclick="return confirm('Are you sure you ' +
+                         'want to delete your data for this fanfic?')"
+                                type="submit">Clear
+                            all</button>
+                    </form>
+                    &nbsp;|&nbsp;<form action="
+{% url 'chapters_fanfics:chapters_notes' fanfic_id=fanfic.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="_method" value="delete">
+                        <button onclick="return confirm('Are you sure you ' +
+                         'want to delete your notes for this fanfic?')"
+                                type="submit">Clear private notes</button>
+                    </form>&nbsp;|&nbsp;<form action="
+{% url 'chapters_fanfics:chapters' fanfic_id=fanfic.id %}" method="post">
+                        {% csrf_token %}
+                        <button onclick="return confirm('Are you sure you ' +
+                         'want to mark all the chapters as read?')"
+                                type="submit">Mark all as read</button>
+                    </form>
+                </div>
+                <div class="readings">
+                    <div class="reading reading-header">
+                        <h3>Chapter</h3>
+                    </div>
+                    <div class="reading reading-header reading-center">
+                        <h3>Private Notes</h3>
+                    </div>
+                    <div class="reading reading-header">
+                        <h3>Read</h3>
+                    </div>
+                    {% for chapter in chapters %}
+                        {% get_reading_of_user chapter user as user_reading %}
+                        <div class="reading reading-body">
+                            <a href="{{ chapter.url_chapter }}" >{{ chapter.num_chapter }}</a>
+                        </div>
+                        <div class="reading reading-body reading-center">
+                            <div class="existing-note">{% if user_reading.private_notes %}{{ user_reading.private_notes }}{% endif %}</div>
+                            <button class="edit-button">Edit</button>
+                            <div class="note-editor" style="display: none;">
+                                <div class="editor"></div>
+                                <div style="display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between">
+                                     <div>
+                                        <button
+                                            data-fanficid="{{ fanfic.id }}"
+                                           data-chapterid="{{ chapter.id }}"
+                                            class="save-button">Save</button>
+                                        <button
+                                            class="cancel-button">Cancel</button>
+                                    </div>
+                                    <div class="character-count">
+                                        200
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <div class="reading reading-body">
+                             <span data-fanficid="{{ fanfic.id }}"
+                                   data-chapterid="{{ chapter.id }}"
+                                   class="checking-reading
+{% if user_reading.read %}checked-reading{% else %}unchecked-reading{% endif %}">
+                                  <i class="fa fa-check fa-2x" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <h1 class="no-selectable" style="text-align:center;  margin-top: 3.5rem; margin-bottom: 2.3rem;">Reviews (<span style="font-family: Segoe UI,serif">{{ fanfic.get_num_reviews }}</span>)</h1>
+        {% if not review_user %}
+            {% include 'utils/editor.html' %}
+        {% endif %}
+        <div id="block-reviews">
+            {% if review_user %}
+                <div class="box">
+              <article class="media">
+                <div class="media-left">
+                  <figure class="image is-64x64">
+                    <img src="{{ review_user.user.get_image }}" alt="Image">
+                  </figure>
+                </div>
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                        <a href="{{ review_user.user.get_link }}"><strong
+                    >{{ review_user.user }}</strong></a>
+                        <small>{{ review_user.date }}</small>
+                        <br>
+                        {% generate_stars review_user.score %}
+                        <br>
+                    </p>
+                      <div class="reading">
+                          {{ review_user.text|safe }}
+                      </div>
+
+                  </div>
+                  <nav class="level is-mobile">
+                    <div class="level-left">
+
+                         <a class="level-item" aria-label="edit" href="
+{% url 'reviews:review' review_id=review_user.id %}">
+                         <span class="icon is-small" title="Edit">
+                            <i class="fas fa-edit" aria-hidden="true"></i>
+                         </span>
+                       </a>
+                        <form action="
+{% url 'reviews:reviews' review_id=review_user.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit" class="level-item
+                            review-footer-icon" aria-label="like"  onclick="return confirm
+                                                    ('Are ' +
+                                                     'you sure you want to ' +
+                                                      'delete this review?')">
+                                 <a class="level-item" aria-label="delete">
+                                <span class="icon is-small" title="Delete">
+                                    <i class="fas fa-trash" aria-hidden="true"></i>
+                                 </span>
+                                </a>
+                            </button>
+                        </form>
+
+
+                    </div>
+                  </nav>
+                </div>
+              </article>
+            </div>
+            {% endif %}
+
+            {% for review in reviews %}
+            <div class="box">
+              <article class="media">
+                <div class="media-left">
+                  <figure class="image is-64x64">
+                    <img src="{{ review.user.get_image }}" alt="Image">
+                  </figure>
+                </div>
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                        <a href="{{ review.user.get_link }}"><strong
+                    >{{ review.user }}</strong></a>
+                        <small>{{ review.date }}</small>
+                        <br>
+                        {% generate_stars review.score %}
+                        <br>
+                    </p>
+                      <div class="reading">
+                          {{ review.text }}
+                      </div>
+
+                  </div>
+
+                </div>
+              </article>
+            </div>
+
+            {% endfor %}
+        {% paginate '#block-reviews' %}
+
+        </div>
+        </div>
+            </div>
+    </div>
+
+
+ <div class="modal" id="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Submit fanfic error</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <form method="post" action="
+{% url 'fanfics:fanfic_errors' fanfic_id=fanfic.id %}">
+            {% csrf_token %}
+            <section class="modal-card-body">
+                <div class="form-filter">
+                    <p>
+                    What seems to be the issue?</p>
+                    <div class="select">{{ error_form.issue  }}</div>
+                    <br><br>
+                    <p>Please, tell us something more about it...</p>
+                        {% render_field error_form.comment class+="textarea" %}
+
+                </div>
+            </section>
+            <footer class="modal-card-foot"
+                    style="justify-content: flex-end">
+                <button type="button" class="button secondary-button
+                grey cancel-modal">Cancel
+                </button>
+                <button type="submit" class="button
+                login-button">Send
+                </button>
+            </footer>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

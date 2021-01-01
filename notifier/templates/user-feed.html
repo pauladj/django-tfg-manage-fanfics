@@ -1,0 +1,31 @@
+{% load main_tags %}
+
+{% for notification in user_notifications %}
+<a  
+{% if notification.link is not None %}href='{{notification.link}}'{%endif%} style="color: black">
+<article class="media" style="align-items: center; border-bottom: 1px solid #eaeaea; padding-bottom: 0.5em; padding-top: 0.5em;">
+    {% if notification.get_representative_image %}
+    <figure class="media-left">
+      <p class="image is-48x48">
+        <img src="{{notification.get_representative_image}}" style="width: 48px; border-radius: 100%; height: 48px; object-fit: cover;">
+      </p>
+    </figure>
+    {% endif %}
+    <div class="media-content">
+      <div class="content">
+        <p>
+            {% if notification.reverse is True %}
+                <strong>{{notification.target}}</strong> {{notification.verb}} {{notification.subject}}
+            {% else %}
+                <strong>{{notification.subject}}</strong> {{notification.verb}} {{notification.target}}
+            {% endif %}
+          <br>
+          <span class="notifier-when">{{notification.get_date}}</span>
+        </p>
+      </div>
+    </div>
+  </article>
+  </a>
+{% endfor %}
+
+{% paginate '#recent-activity' %}

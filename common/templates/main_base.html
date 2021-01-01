@@ -1,0 +1,253 @@
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% load notifier %}
+{% load media_type_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static "css/external/bulma.css" %}">
+    <link rel="stylesheet" href="{% static "css/external/toastr.min.css" %}">
+
+    <link rel="stylesheet" href="{% static "css/general.css" %}">
+    <link rel="stylesheet" href="{% static "css/mainBase.css" %}">
+    <link rel="stylesheet" href="{% static "css/custom-toastr.css" %}">
+    <link rel="stylesheet" href="{% static "css/lists-dropdown.css" %}">
+
+    {% block css %}
+    {% endblock %}
+    <link href="https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800"
+          rel="stylesheet">
+
+    <script type="text/javascript"
+            src="{% static "js/external/jquery-3.3.1.min.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "js/external/jquery.slimscroll.min.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "js/external/popper.min.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "js/external/tippy.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "js/external/fontawesome.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "js/external/toastr.min.js" %}"></script>
+
+    <script type="text/javascript" src="{% static "js/general.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/tooltip.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "js/navbar-main.js" %}"></script>
+    {% add_real_time_notifications %}
+    <script type="text/javascript"
+            src="{% static "js/lists-dropdown.js" %}"></script>
+
+    {% block js %}
+    {% endblock %}
+
+    <script>
+        var actualUserName = "{{user.username}}";
+    </script>
+
+</head>
+<body>
+
+<header>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="container is-widescreen">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{% url 'pages:home' %}">
+                    <img src="{% static "img/logo.svg" %}"
+                         alt="Fickeeper: you fanfic organizer">
+                </a>
+
+                <a role="button" class="navbar-burger burger" aria-label="menu"
+                   aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item
+{% if menu and menu == 'home' %}menu-selected-option
+                                    {% endif %}" href=
+                            "{% url 'common:dashboard' %}">
+                        {% if menu and menu == 'home' %}<b>
+                        {% endif %}
+                        Home
+                        {% if menu and menu == 'home' %}
+                            </b>{% endif %}
+                    </a>
+
+                    <div class="navbar-item has-dropdown">
+                        <a class="navbar-link nav-show-hide-button {% if menu and menu == 'browse' %}menu-selected-option
+                                    {% endif %}">
+                            {% if menu and menu == 'browse' %}<b>
+                            {% endif %}
+                            Browse{% if menu and menu == 'browse' %}
+                            </b>{% endif %}
+                        </a>
+
+                        {% get_all_media_types as media_types %}
+                        <div class="navbar-dropdown nav-show-hide-content"
+                             style="text-transform: capitalize">
+                            {% for media_type in media_types %}
+                                <a class="navbar-item"
+                                   href="{{ media_type.get_url }}">
+                                    {{ media_type }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <a class="navbar-item
+{% if menu and menu == 'my_fics' %}menu-selected-option
+                                    {% endif %}" href="
+{% url 'user_fanfics' user_id=user.id %}">
+                        {% if menu and menu == 'my_fics' %}<b>
+                        {% endif %}
+                        My Fics{% if menu and menu == 'my_fics' %}
+                        </b>{% endif %}
+                    </a>
+                </div>
+
+                <div class="navbar-center" style="width: 50%;">
+                    <div class="navbar-item" style="width: 100%;">
+                        <div class="field" style="width: 100%">
+                            <form method="get"
+                                  action="{% url 'common:search' %}">
+                                <p class="control has-icons-right">
+                                    <input class="input is-small" name="text"
+                                           type="text"
+                                           placeholder="Search fanfics...">
+
+                                    <button type="submit" class="icon is-small
+                                    is-right"
+                                            style="cursor: pointer;
+                                          pointer-events: initial;
+                                          background: none; border: none;">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </p>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item has-dropdown">
+                        <a class="navbar-link is-arrowless notification-bell-nav nav-show-hide-button">
+                            {% get_user_unread_notification_count user as badge %}
+                            <div id="notification-bubble"
+                                 {% if badge != 0 %}class="bubble"{% endif %}
+                                 data-badge=
+                                         {% if badge < 100 %}{{ badge }}{% else %}99{% endif %}>
+                                <img src="{% static "img/notification-bell.svg" %}"
+                                     alt="Notifications"
+                                     style="width: 67%; display:block; margin: auto">
+                            </div>
+                        </a>
+                        <div class="navbar-dropdown is-right nav-show-hide-content"
+                             id="notification-dropdown"
+                             style="    min-width: 180px;">
+
+                            <a>
+                                <div class="all-as-read">
+                                    Mark all as read
+                                </div>
+                            </a>
+                            <div id="notification-content"
+                                 style="min-width: 300px">
+                                <div id="notification-container"
+                                     style="min-width: 300px">
+                                    {% get_user_notifications %}
+                                </div>
+                            </div>
+                            <a href="{% url "notifier:notifications" %}">
+                                <div id="all-notifications-button">
+                                    See All
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="navbar-item has-dropdown">
+                        <a class="navbar-link nav-show-hide-button">
+                            <div class="profile-picture-nav"
+                                 style="background: url({{ user.get_image }}); background-size: cover;"></div>
+                        </a>
+                        <div class="navbar-dropdown is-right nav-show-hide-content">
+                            <a href="{% url 'profile' user_id=user.id %}"
+                               class="navbar-item">
+                                Profile
+                            </a>
+                            <a href="{% url 'lists:manage_lists' %}"
+                               class="navbar-item">
+                                My lists
+                            </a>
+                            <a href="{% url 'edit_profile_user' user_id=user.id %}"
+                               class="navbar-item">
+                                Settings
+                            </a>
+                            {% if request.user.is_staff %}
+                                <hr class="navbar-divider">
+                                <a href="{% url 'admin:index' %}"
+                                   class="navbar-item">
+                                    Admin panel
+                                </a>
+                                {% if request.user.is_superuser %}
+                                    <a href="{% url 'analyzer:analytics' %}"
+                                       class="navbar-item">
+                                        Analytics
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                            <hr class="navbar-divider">
+                            <a href="{% url 'logout' %}" class="navbar-item">
+                                Log out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </nav>
+</header>
+<br>
+
+<section class="hero is-desktop is-fullheight">
+    <div style="width:100%" class="container">
+        {% for message in messages %}
+            <div class="notification
+      {% if message.tags == 'error' %}
+      is-danger
+      {% elif message.tags == 'success' %}
+      is-success
+      {% endif %}">
+                <button class="delete"></button>
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% block body %}
+        {% endblock %}
+
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <strong>Fickeeper</strong> by <a>Paula de
+            Jaime</a>.
+        </p>
+    </div>
+</footer>
+<footer></footer>
+</body>
+</html>

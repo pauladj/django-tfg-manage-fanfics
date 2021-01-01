@@ -1,0 +1,63 @@
+{% extends "main_base.html" %}
+{% load staticfiles %}
+
+{% block title %}Add External Fanfic{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{% static "js/buttonWithLoader.js" %}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="column is-7" style="margin: 0 auto;">
+    <a href="{% url 'fanfics:external_add' %}"><H1>{% block boxtitle %}Add
+        Fanfic{% endblock %}</H1></a>
+    <br>
+    <div class="box">
+    {% block inside_box %}
+  
+    <form action="{% url 'fanfics:external_add' %}" method="post">
+        {% csrf_token %}
+        URL <i style="font-size:0.5rem; color: #CF3737;" class="fas fa-xs fa-asterisk"></i>
+        <br>
+        <div style="margin-top: 0.4rem" class="control has-icons-left">
+            <input id="url_fanfic" type="text" name="url_fanfic" 
+            class="input {%if error %}is-danger{%endif%} grey-background" 
+            value="{{url_fanfic}}" required>
+            <span class="icon is-small is-left" >
+            <i class="fas fa-link"></i>
+        </span>
+        </div>
+        <a class="tippy" 
+        data-tippy-content='
+        <ul>
+            <li>ArchiveofOurOwn.org</li>
+            <li>FicWad.com</li>
+            <li>AvengersFanfiction.com</li>
+        </ul>'
+        data-tippy-arrow="true" 
+        data-tippy-animation="fade" 
+        data-tippy-allowHTML="true" 
+        data-tippy-interactive="true" 
+        data-tippy-hideOnClick="false" 
+        >See supported sites</a> 
+   
+        <div style="width: 100%; display: flex; justify-content: flex-end;">
+        <button id="button" class="login-button" type="submit" >Continue</button>
+        </div>
+
+        Examples:
+        <ul>
+            <li>- <a href="http://www.avengersfanfiction.com/Story/2141/Glass-Heart/">http://www.avengersfanfiction.com/Story/2141/Glass-Heart/</a> </li>
+            <li>- <a href="https://archiveofourown.org/works/18694642/">https://archiveofourown.org/works/18694642/</a></li>
+            <li>- <a href="https://ficwad.com/story/267693">https://ficwad.com/story/267693</a></li>
+        </ul>
+    </form>
+    {% endblock %}
+</div>
+</div>
+{% endblock %}
+
+
+
+
+    

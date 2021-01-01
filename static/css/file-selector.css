@@ -1,0 +1,29 @@
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+    margin-top: 10px;
+}
+
+
+.no-js .inputfile+label {
+    display: none;
+}
+
+.inputfile:focus+label, .inputfile.has-focus+label {
+    border-color: #00d1b2;
+}
+
+.inputfile+label svg {
+    width: 1em;
+    height: 1em;
+    line-height: 1.5rem;
+    vertical-align: middle;
+    margin-top: -0.25em;
+    /* 4px */
+    margin-right: 0.25em;
+    /* 4px */
+}
+
