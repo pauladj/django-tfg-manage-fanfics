@@ -24,7 +24,7 @@ Se podrán añadir nuevos fanfics **importando** estos desde las siguientes pág
 
 También se pueden crear **listas** para organizar los fanfics. Además, la aplicación web cuenta con un sistema de **notificaciones** en tiempo real, para que los usuarios puedan estar al tanto de las últimas **actualizaciones** de los fanfics y de otros miembros de la aplicación. Por último, se ha implementado un sistema de **recomendaciones** para poder ofrecer fanfics similares a uno visitado, además de ayudar a visualizar los datos obtenidos de los usuarios para ayudar a tomar decisiones de negocio.
 
-[Documentación pdf](https://github.com/pauladj/django-manage-fanfics/blob/master/Documentaci%C3%B3n.pdf)
+[Documentación pdf](https://github.com/pauladj/django-tfg-manage-fanfics/blob/master/Documentaci%C3%B3n.pdf)
 
 <div align="center"><img src="img/mini-dashboard.png" width="700" alt="dashboard preview"/></div>
 
@@ -32,7 +32,7 @@ También se pueden crear **listas** para organizar los fanfics. Además, la apli
 
 ## 🔧 Setup 
 
-Las instrucciones de instalación se encuentran en el Anexo V de la [documentación](https://github.com/pauladj/django-manage-fanfics/blob/master/Documentaci%C3%B3n.pdf). Los ficheros ahí mencionados están dentro del fichero comprimido "Ficheros instalación.zip".
+Las instrucciones de instalación se encuentran en el Anexo V de la [documentación](https://github.com/pauladj/django-tfg-manage-fanfics/blob/master/Documentaci%C3%B3n.pdf). Los ficheros ahí mencionados están dentro del fichero comprimido "Ficheros instalación.zip".
 
 
 
@@ -57,7 +57,7 @@ Las instrucciones de instalación se encuentran en el Anexo V de la [documentaci
 - ***Tooltips* y *popovers*** usando la librería Tippy (https://atomiks.github.io/tippyjs/).
 - **Adobe XD** para la generación de los prototipos de alta fidelidad. Prototipos diseñados para escanear, no para leer (**UX**).
 
-El listado completo de herramientas se encuentra en la [documentación](https://github.com/pauladj/django-manage-fanfics/blob/master/Documentaci%C3%B3n.pdf).
+El listado completo de herramientas se encuentra en la [documentación](https://github.com/pauladj/django-tfg-manage-fanfics/blob/master/Documentaci%C3%B3n.pdf).
 
 
 
@@ -73,14 +73,14 @@ Cada x tiempo se **comprueba** si se han **añadido** **capítulos** a alguno de
 
 ## 👓 Capturas de pantalla 
 
-Para ver más capturas de pantalla visitar la [documentación](https://github.com/pauladj/django-manage-fanfics/blob/master/Documentaci%C3%B3n.pdf).
+Para ver más capturas de pantalla visitar la [documentación](https://github.com/pauladj/django-tfg-manage-fanfics/blob/master/Documentaci%C3%B3n.pdf).
 
 <div align="center"><img src="img\dashboard.png"  />
     &nbsp;&nbsp;<img src="img\myficspage.png"  />
     &nbsp;&nbsp;<img src="img\onefanfic.png"  />
-    &nbsp;&nbsp;<img src="img\notitas.png"  />
-    &nbsp;&nbsp;<img src="img\addexternal.png"  />
-    &nbsp;&nbsp;<img src="img\filterby.png"  /></div>
+    &nbsp;&nbsp;<img src="img\notitas.png"  width="500"/>
+    &nbsp;&nbsp;<img src="img\addexternal.png" width="500" />
+    &nbsp;&nbsp;<img src="img\filterby.png" width="450" /></div>
 
 
 
