@@ -56,7 +56,7 @@ Las instrucciones de instalación se encuentran en el Anexo V de la [documentaci
 - Pell (https://github.com/jaredreich/pell), simple **editor WYSIWYG** para la creación y edición de reseñas de un fanfic.
 - ***Tooltips* y *popovers*** usando la librería Tippy (https://atomiks.github.io/tippyjs/).
 - **Adobe XD** para la generación de los prototipos de alta fidelidad. Prototipos diseñados para escanear, no para leer (**UX**).
-- Librería **Coverage** para saber el porcentaje de código cubierto por tests. Actualmente el porcentaje de código cubierto es de **72%**.
+- Librería **Coverage** para saber el porcentaje de código cubierto por **tests**. Actualmente el porcentaje de código cubierto es de **72%**.
 
 El listado completo de herramientas se encuentra en la [documentación](https://github.com/pauladj/django-tfg-manage-fanfics/blob/master/Documentaci%C3%B3n.pdf).
 
